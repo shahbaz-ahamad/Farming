@@ -1,6 +1,9 @@
 package com.shahbaz.farming.di
 
 import android.content.Context
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
+import com.shahbaz.farming.authentication.AuthenticationRepositiory
 import com.shahbaz.farming.oboarding.onboardingrepo.OnBoardingRepo
 import dagger.Module
 import dagger.Provides
@@ -17,5 +20,23 @@ object FarmingModule {
     @Singleton
     fun provideOnboardingRepo(@ApplicationContext context: Context):OnBoardingRepo{
         return OnBoardingRepo(context)
+    }
+
+    @Provides
+    @Singleton
+    fun provideFirebaseAuth():FirebaseAuth{
+        return FirebaseAuth.getInstance()
+    }
+
+    @Provides
+    @Singleton
+    fun provideFirebaseFirestore():FirebaseFirestore{
+        return FirebaseFirestore.getInstance()
+    }
+
+    @Provides
+    @Singleton
+    fun provideAuthenticationViewmodel(firebaseAuth: FirebaseAuth,firestore: FirebaseFirestore):AuthenticationRepositiory{
+        return AuthenticationRepositiory(firebaseAuth,firestore)
     }
 }
