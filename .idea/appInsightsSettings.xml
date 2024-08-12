@@ -8,10 +8,10 @@
             <InsightsFilterSettings>
               <option name="connection">
                 <ConnectionSetting>
-                  <option name="appId" value="PLACEHOLDER" />
-                  <option name="mobileSdkAppId" value="" />
-                  <option name="projectId" value="" />
-                  <option name="projectNumber" value="" />
+                  <option name="appId" value="com.shahbaz.farming" />
+                  <option name="mobileSdkAppId" value="1:632161545174:android:3b7e68205260dc0fc71277" />
+                  <option name="projectId" value="kotlin-project-aef9a" />
+                  <option name="projectNumber" value="632161545174" />
                 </ConnectionSetting>
               </option>
               <option name="signal" value="SIGNAL_UNSPECIFIED" />

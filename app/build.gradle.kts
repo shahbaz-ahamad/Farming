@@ -53,6 +53,7 @@ dependencies {
     implementation(libs.androidx.navigation.ui.ktx)
     implementation(libs.firebase.auth)
     implementation(libs.firebase.firestore)
+    implementation(libs.play.services.location)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -72,6 +73,18 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-viewmodel-savedstate:$lifecycle_version")
     implementation ("androidx.activity:activity-ktx:1.9.0")
     implementation ("androidx.fragment:fragment-ktx:1.6.2")
+
+    //circular image
+    implementation ("de.hdodenhof:circleimageview:3.1.0")
+
+    //api
+    implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
+    implementation ("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
+
+
+    //glide
+    implementation ("com.github.bumptech.glide:glide:4.16.0")
 }
 
 // Allow references to generated code
