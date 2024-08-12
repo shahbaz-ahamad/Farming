@@ -43,28 +43,25 @@ class DashboardActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+        window.statusBarColor = ContextCompat.getColor(this, R.color.green)
+        binding = ActivityDashboardBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        setSupportActionBar(binding.myToolbar)
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            insets
+        }
+
+        setupNavigationdrawer()
 
         if (isLocationEnabled(this)) {
-            window.statusBarColor = ContextCompat.getColor(this, R.color.green)
-            binding = ActivityDashboardBinding.inflate(layoutInflater)
-            setContentView(binding.root)
-            setSupportActionBar(binding.myToolbar)
-            ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-                val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-                v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-                insets
-            }
-
-
             //this is the function placed in the location permission file
             if (com.shahbaz.farming.permission.checkPermission(this@DashboardActivity)) {
                 val navHostFragment =
                     supportFragmentManager.findFragmentById(R.id.fragmentContainerView2) as NavHostFragment
                 val navController = navHostFragment.navController
                 binding.bottomNavigationView.setupWithNavController(navController)
-
-                setupNavigationdrawer()
-
 
                 binding.myToolbar.setNavigationOnClickListener {
                     if (binding.main.isDrawerOpen(GravityCompat.START)) {
@@ -73,18 +70,17 @@ class DashboardActivity : AppCompatActivity() {
                         binding.main.openDrawer(GravityCompat.START)
                     }
                 }
-
-                binding.navigationview.setNavigationItemSelectedListener {
-                    when (it.itemId) {
-                        R.id.logout -> {
-                            Toast.makeText(this, "Logout", Toast.LENGTH_SHORT).show()
-                        }
-                    }
-                    binding.main.closeDrawer(GravityCompat.START)
-                    return@setNavigationItemSelectedListener true
-                }
             }
 
+            binding.navigationview.setNavigationItemSelectedListener {
+                when (it.itemId) {
+                    R.id.logout -> {
+                        Toast.makeText(this, "Logout", Toast.LENGTH_SHORT).show()
+                    }
+                }
+                binding.main.closeDrawer(GravityCompat.START)
+                return@setNavigationItemSelectedListener true
+            }
 
         } else {
             showLocationServicesDialog()
@@ -116,7 +112,6 @@ class DashboardActivity : AppCompatActivity() {
         grantResults: IntArray
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-
         if (requestCode == LOCATION_PERMISSION_REQUEST_CODE) {
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 // Permission granted, you can now fetch the location
@@ -125,7 +120,7 @@ class DashboardActivity : AppCompatActivity() {
                 val navController = navHostFragment.navController
                 navController.navigate(R.id.homeFragment) // Ensure you navigate to HomeFragment
             } else {
-                com.shahbaz.farming.permission.checkPermission(this)
+                // Permission denied, show a dialog or take appropriate action
             }
         }
     }
