@@ -94,6 +94,7 @@ class HomeFragment : Fragment() {
         var iconurl = "https://openweathermap.org/img/w/" + iconcode + ".png";
         Glide.with(requireContext()).load(iconurl).into(binding.weatherIconImage)
         binding.cityName.text = data.name
+        weatherViewmodel.setCityName(data.name)
         binding.weatherTemperature.text = "${(data.main.temp - 273).toInt()}" + "\u2103"
     }
 

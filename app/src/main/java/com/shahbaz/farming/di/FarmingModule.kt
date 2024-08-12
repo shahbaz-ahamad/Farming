@@ -5,6 +5,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.shahbaz.farming.authentication.AuthenticationRepositiory
 import com.shahbaz.farming.oboarding.onboardingrepo.OnBoardingRepo
+import com.shahbaz.farming.repo.HomeFragmentRepositiory
 import com.shahbaz.farming.retrofit.WeatherApi
 import com.shahbaz.farming.util.Constant.Companion.WEATHER_BASE_URL
 import com.shahbaz.farming.weather.WeatherRepo
@@ -86,5 +87,11 @@ object FarmingModule {
     @Singleton
     fun provideWeatherRepo(weatherApi: WeatherApi):WeatherRepo{
         return WeatherRepo(weatherApi)
+    }
+
+    @Provides
+    @Singleton
+    fun provideHomeRepo(firebaseAuth: FirebaseAuth,firestore: FirebaseFirestore): HomeFragmentRepositiory{
+        return HomeFragmentRepositiory(firebaseAuth,firestore)
     }
 }

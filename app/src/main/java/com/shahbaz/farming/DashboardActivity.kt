@@ -10,6 +10,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
 import android.view.View
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
@@ -23,14 +24,18 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
+import com.bumptech.glide.Glide
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.shahbaz.farming.databinding.ActivityDashboardBinding
+import com.shahbaz.farming.datamodel.User
 import com.shahbaz.farming.permission.isLocationEnabled
 import com.shahbaz.farming.util.Constant.Companion.LOCATION_PERMISSION_REQUEST_CODE
 import com.shahbaz.farming.util.Resources
+import com.shahbaz.farming.viewmodel.HomeFragmentViewmodel
 import com.shahbaz.farming.weather.WeatherViewmodel
 import dagger.hilt.android.AndroidEntryPoint
+import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.coroutines.launch
 
 
@@ -38,6 +43,7 @@ import kotlinx.coroutines.launch
 class DashboardActivity : AppCompatActivity() {
     private lateinit var binding: ActivityDashboardBinding
     private lateinit var actionBarDrawerToggle: ActionBarDrawerToggle
+    private val homeFragmentViewmodel by viewModels<HomeFragmentViewmodel>()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -54,7 +60,9 @@ class DashboardActivity : AppCompatActivity() {
         }
 
         setupNavigationdrawer()
+        homeFragmentViewmodel.getCurrentUserDetails()
 
+        observeCurrentUserDetails()
         if (isLocationEnabled(this)) {
             //this is the function placed in the location permission file
             if (com.shahbaz.farming.permission.checkPermission(this@DashboardActivity)) {
@@ -75,7 +83,9 @@ class DashboardActivity : AppCompatActivity() {
             binding.navigationview.setNavigationItemSelectedListener {
                 when (it.itemId) {
                     R.id.logout -> {
+                        homeFragmentViewmodel.signOut()
                         Toast.makeText(this, "Logout", Toast.LENGTH_SHORT).show()
+                        goToMainActivity()
                     }
                 }
                 binding.main.closeDrawer(GravityCompat.START)
@@ -85,6 +95,46 @@ class DashboardActivity : AppCompatActivity() {
         } else {
             showLocationServicesDialog()
         }
+    }
+
+    private fun observeCurrentUserDetails() {
+        lifecycleScope.launch {
+            homeFragmentViewmodel.userDetailState.collect{
+                when(it){
+                    is Resources.Error -> {
+                        Toast.makeText(this@DashboardActivity,it.message,Toast.LENGTH_SHORT).show()
+                    }
+                    is Resources.Loading -> {
+
+                    }
+                    is Resources.Success -> {
+                        val data = it.data
+                        data.let {user ->
+                            setUpNavHeaderdata(user!!)
+                        }
+
+                    }
+                    is Resources.Unspecified -> {
+
+                    }
+                }
+            }
+        }
+    }
+
+    private fun setUpNavHeaderdata(data: User) {
+        val headerview = binding.navigationview.getHeaderView(0)
+        val name = headerview.findViewById<TextView>(R.id.profileName)
+        name.text = data.name
+        val email = headerview.findViewById<TextView>(R.id.email)
+        email.text = data.email
+        val profileImage = headerview.findViewById<CircleImageView>(R.id.profile_image)
+
+        if(data.profileUrl != ""){
+            Glide.with(this).load(data.profileUrl).into(profileImage)
+        }
+
+
 
     }
 
@@ -144,5 +194,11 @@ class DashboardActivity : AppCompatActivity() {
             .show()
     }
 
+
+    private fun goToMainActivity(){
+        val intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)
+        finish()
+    }
 
 }
