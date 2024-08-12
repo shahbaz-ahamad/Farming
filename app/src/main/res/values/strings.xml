@@ -16,4 +16,9 @@
     <string name="farming_app">Farming App</string>
     <string name="get_your_farming_product_here">Get your farming product here</string>
     <string name="sign_up_here">Sign up here</string>
+    <string name="farming_app1">Farming App</string>
+    <string name="get_your_farming_product_here1">Get your farming product here</string>
+    <string name="login_to_your_account">Login to your account</string>
+    <string name="enter_email1">Enter Email</string>
+    <string name="designed_by_rahul_and_shahbaz">Designed by Rahul and shahbaz</string>
 </resources>
