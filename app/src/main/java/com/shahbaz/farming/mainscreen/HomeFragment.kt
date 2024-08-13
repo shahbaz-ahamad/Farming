@@ -1,5 +1,9 @@
 package com.shahbaz.farming.mainscreen
 
+import android.Manifest.permission.READ_EXTERNAL_STORAGE
+import android.Manifest.permission.READ_MEDIA_IMAGES
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -7,15 +11,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
-import com.shahbaz.farming.DashboardActivity
-import com.shahbaz.farming.R
 import com.shahbaz.farming.databinding.FragmentHomeBinding
 import com.shahbaz.farming.datamodel.weahterdatamodel.WeatherRootList
 import com.shahbaz.farming.permission.checkPermission
@@ -38,6 +43,18 @@ class HomeFragment : Fragment() {
     private var lat: String? = null
     private var lon: String? = null
 
+
+    val requestPermissions = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { results ->
+
+        results.entries.forEach{
+            if (it.value) {
+                Toast.makeText(requireContext(), "${it.key} granted", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(requireContext(), "${it.key} denied", Toast.LENGTH_SHORT).show()
+            }        }
+
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -53,6 +70,11 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+       com.shahbaz.farming.permmsion.checkImagePermissionForPhoto(
+           requireContext(),
+           requestPermissions
+       )
 
         fetchLocation()
         observeWeather()
@@ -91,7 +113,7 @@ class HomeFragment : Fragment() {
         binding.weatherWind.text = "Wind: ${data.wind.speed} km/hr"
         binding.weatherHumidity.text = "Humidity: ${data.main.humidity} %"
         val iconcode = data.weather[0].icon
-        var iconurl = "https://openweathermap.org/img/w/" + iconcode + ".png";
+        var iconurl = "https://openweathermap.org/img/w/" + iconcode + ".png"
         Glide.with(requireContext()).load(iconurl).into(binding.weatherIconImage)
         binding.cityName.text = data.name
         weatherViewmodel.setCityName(data.name)
@@ -131,3 +153,4 @@ class HomeFragment : Fragment() {
 
 
 }
+

@@ -11,6 +11,7 @@ class HomeFragmentViewmodel @Inject constructor(
 ):ViewModel() {
 
     val userDetailState = homeFragmentRepositiory.userDetailsStatus
+    val updateProfileStatus = homeFragmentRepositiory.updateProfile
 
     fun getCurrentUserDetails(){
         homeFragmentRepositiory.getCurrentUserDetail()
@@ -18,5 +19,9 @@ class HomeFragmentViewmodel @Inject constructor(
 
     fun signOut(){
         homeFragmentRepositiory.signOut()
+    }
+
+    fun updateProfile(imageurl:String){
+        homeFragmentRepositiory.updateProfilePicture(imageurl)
     }
 }

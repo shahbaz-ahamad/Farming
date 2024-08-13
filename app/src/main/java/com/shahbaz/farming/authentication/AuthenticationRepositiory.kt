@@ -1,6 +1,7 @@
 package com.shahbaz.farming.authentication
 
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.firestore.FirebaseFirestore
 import com.shahbaz.farming.datamodel.User
 import com.shahbaz.farming.util.Resources
@@ -21,9 +22,21 @@ class AuthenticationRepositiory(
     fun createUser(email: String, password: String, name: String) {
         firebaseAuth.createUserWithEmailAndPassword(email, password)
             .addOnSuccessListener {
-                firebaseAuth.currentUser?.let {
-                    val user = User(firebaseAuth.currentUser!!.uid, name, email, "")
-                    addUserToFirestore(user)
+                firebaseAuth.currentUser?.let { user1 ->
+                    //change display name
+                    val profileUpdate = UserProfileChangeRequest.Builder()
+                        .setDisplayName(name)
+                        .build()
+                    user1.updateProfile(profileUpdate)
+                        .addOnSuccessListener {
+                            //add user to firestore
+                            val user = User(firebaseAuth.currentUser!!.uid, name, email, "")
+                            addUserToFirestore(user)
+                        }
+                        .addOnFailureListener { error ->
+                            _authenticationState.value =Resources.Error(error.localizedMessage)
+                        }
+
                 }
                 _authenticationState.value = Resources.Success("Success")
             }
@@ -52,7 +65,7 @@ class AuthenticationRepositiory(
             }
     }
 
-    fun isLoggedIn():Boolean{
+    fun isLoggedIn(): Boolean {
         return firebaseAuth.currentUser != null
     }
 }

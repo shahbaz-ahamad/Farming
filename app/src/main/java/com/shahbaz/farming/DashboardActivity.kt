@@ -2,6 +2,7 @@ package com.shahbaz.farming
 
 import android.app.Activity
 import android.app.AlertDialog
+import android.app.ProgressDialog
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.drawable.ColorDrawable
@@ -13,6 +14,7 @@ import android.view.View
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
@@ -32,6 +34,8 @@ import com.shahbaz.farming.datamodel.User
 import com.shahbaz.farming.permission.isLocationEnabled
 import com.shahbaz.farming.util.Constant.Companion.LOCATION_PERMISSION_REQUEST_CODE
 import com.shahbaz.farming.util.Resources
+import com.shahbaz.farming.util.progressDialgoue
+import com.shahbaz.farming.util.showDialogue
 import com.shahbaz.farming.viewmodel.HomeFragmentViewmodel
 import com.shahbaz.farming.weather.WeatherViewmodel
 import dagger.hilt.android.AndroidEntryPoint
@@ -44,6 +48,8 @@ class DashboardActivity : AppCompatActivity() {
     private lateinit var binding: ActivityDashboardBinding
     private lateinit var actionBarDrawerToggle: ActionBarDrawerToggle
     private val homeFragmentViewmodel by viewModels<HomeFragmentViewmodel>()
+    private var selectedProfileUrl = ""
+    private lateinit var progressDialog: ProgressDialog
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -58,11 +64,13 @@ class DashboardActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+        progressDialog = ProgressDialog(this)
 
         setupNavigationdrawer()
         homeFragmentViewmodel.getCurrentUserDetails()
-
         observeCurrentUserDetails()
+        observeProfileChange()
+
         if (isLocationEnabled(this)) {
             //this is the function placed in the location permission file
             if (com.shahbaz.farming.permission.checkPermission(this@DashboardActivity)) {
@@ -97,23 +105,64 @@ class DashboardActivity : AppCompatActivity() {
         }
     }
 
-    private fun observeCurrentUserDetails() {
+    private fun observeProfileChange() {
         lifecycleScope.launch {
-            homeFragmentViewmodel.userDetailState.collect{
-                when(it){
+            homeFragmentViewmodel.updateProfileStatus.collect {
+                when (it) {
                     is Resources.Error -> {
-                        Toast.makeText(this@DashboardActivity,it.message,Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this@DashboardActivity, it.message, Toast.LENGTH_SHORT)
+                            .show()
+
+                        progressDialog.hide()
                     }
+
                     is Resources.Loading -> {
 
                     }
+
+                    is Resources.Success -> {
+                        val headerView = binding.navigationview.getHeaderView(0)
+                        val profile = headerView.findViewById<CircleImageView>(R.id.profile_image)
+
+                        if (it.data != null) {
+                            Glide.with(this@DashboardActivity)
+                                .load(it.data)
+                                .into(profile)
+                        }
+                        progressDialog.hide()
+
+
+                    }
+
+                    is Resources.Unspecified -> {
+
+                    }
+                }
+            }
+        }
+    }
+
+    private fun observeCurrentUserDetails() {
+        lifecycleScope.launch {
+            homeFragmentViewmodel.userDetailState.collect {
+                when (it) {
+                    is Resources.Error -> {
+                        Toast.makeText(this@DashboardActivity, it.message, Toast.LENGTH_SHORT)
+                            .show()
+                    }
+
+                    is Resources.Loading -> {
+
+                    }
+
                     is Resources.Success -> {
                         val data = it.data
-                        data.let {user ->
+                        data.let { user ->
                             setUpNavHeaderdata(user!!)
                         }
 
                     }
+
                     is Resources.Unspecified -> {
 
                     }
@@ -130,10 +179,22 @@ class DashboardActivity : AppCompatActivity() {
         email.text = data.email
         val profileImage = headerview.findViewById<CircleImageView>(R.id.profile_image)
 
-        if(data.profileUrl != ""){
+        if (data.profileUrl != "") {
             Glide.with(this).load(data.profileUrl).into(profileImage)
         }
 
+        profileImage.setOnClickListener {
+            showDialogue(
+                this@DashboardActivity,
+                "Profile Picture",
+                "Choose to change profile picture",
+                "Change Photo",
+                "Cancel",
+                onClick = {
+                    selectImage()
+                }
+            )
+        }
 
 
     }
@@ -195,10 +256,30 @@ class DashboardActivity : AppCompatActivity() {
     }
 
 
-    private fun goToMainActivity(){
+    private fun goToMainActivity() {
         val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
         finish()
+    }
+
+    private fun selectImage() {
+        selectedProfileLauncher.launch("image/*")
+    }
+
+
+    private val selectedProfileLauncher = registerForActivityResult(
+        ActivityResultContracts.GetContent()
+    ) { uri ->
+        uri?.let {
+            selectedProfileUrl = it.toString()
+            progressDialgoue(
+                progressDialog,
+                "Uploading Image...",
+                "Upload In Progress..."
+            )
+            homeFragmentViewmodel.updateProfile(selectedProfileUrl)
+        }
+
     }
 
 }
