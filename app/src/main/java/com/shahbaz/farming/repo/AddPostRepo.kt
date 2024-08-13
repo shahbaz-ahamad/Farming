@@ -35,7 +35,7 @@ class AddPostRepo(
                     .addOnSuccessListener { url ->
                         val imageUrl = url.toString()
                         val post = Post(
-                            id = uid,
+                            id = uid+System.currentTimeMillis().toString(),
                             userName = firebaseAuth.currentUser!!.displayName.toString(),
                             userProfile = firebaseAuth.currentUser!!.photoUrl.toString(),
                             timeStamp = System.currentTimeMillis(),
@@ -74,7 +74,9 @@ class AddPostRepo(
     fun fetchPosts() {
         _fetchPostStatus.value = Resources.Loading()
         val uid = firebaseAuth.currentUser!!.uid
-        firestore.collection("Post").get()
+        firestore.collection("Post")
+            .orderBy("timeStamp", com.google.firebase.firestore.Query.Direction.DESCENDING)
+            .get()
             .addOnSuccessListener {
                 _fetchPostStatus.value = Resources.Success(it.toObjects(Post::class.java))
             }

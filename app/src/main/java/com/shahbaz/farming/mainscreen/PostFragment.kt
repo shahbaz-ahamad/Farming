@@ -10,7 +10,9 @@ import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.shahbaz.farming.R
+import com.shahbaz.farming.adapter.PostAdapter
 import com.shahbaz.farming.databinding.FragmentPostBinding
 import com.shahbaz.farming.util.Resources
 import com.shahbaz.farming.util.showBottomNavigationBar
@@ -24,6 +26,9 @@ class PostFragment : Fragment() {
 
     private lateinit var binding: FragmentPostBinding
     private val addPostViewmodel by viewModels<AddPostViewmodel>()
+    private val postAdapter: PostAdapter by lazy {
+        PostAdapter()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,6 +53,7 @@ class PostFragment : Fragment() {
 
         addPostViewmodel.fetchPost()
         observeFetchPost()
+        setUpRecyclerview()
     }
 
     private fun observeFetchPost() {
@@ -65,6 +71,10 @@ class PostFragment : Fragment() {
 
                     is Resources.Success -> {
                         Log.d("Data", it.data.toString())
+                        val data = it.data
+                        data?.let { postItem ->
+                            postAdapter.differ.submitList(postItem)
+                        }
                     }
 
                     is Resources.Unspecified -> Unit
@@ -76,5 +86,15 @@ class PostFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         showBottomNavigationBar()
+    }
+
+    fun setUpRecyclerview() {
+        binding.postRecyclerview.apply {
+            layoutManager =
+                LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+            adapter = postAdapter
+            setHasFixedSize(true)
+        }
+
     }
 }
