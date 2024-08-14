@@ -26,6 +26,7 @@ import com.shahbaz.farming.datamodel.weahterdatamodel.WeatherRootList
 import com.shahbaz.farming.permission.checkPermission
 import com.shahbaz.farming.util.Constant.Companion.LOCATION_PERMISSION_REQUEST_CODE
 import com.shahbaz.farming.util.Resources
+import com.shahbaz.farming.util.showBottomNavigationBar
 import com.shahbaz.farming.weather.WeatherViewmodel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -151,6 +152,9 @@ class HomeFragment : Fragment() {
         }
     }
 
-
+    override fun onResume() {
+        super.onResume()
+        showBottomNavigationBar()
+    }
 }
 

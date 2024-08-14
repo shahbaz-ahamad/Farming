@@ -7,6 +7,7 @@ import com.google.firebase.storage.FirebaseStorage
 import com.shahbaz.farming.authentication.AuthenticationRepositiory
 import com.shahbaz.farming.oboarding.onboardingrepo.OnBoardingRepo
 import com.shahbaz.farming.repo.AddPostRepo
+import com.shahbaz.farming.repo.AddProductRepo
 import com.shahbaz.farming.repo.HomeFragmentRepositiory
 import com.shahbaz.farming.retrofit.WeatherApi
 import com.shahbaz.farming.util.Constant.Companion.WEATHER_BASE_URL
@@ -107,5 +108,11 @@ object FarmingModule {
     @Singleton
     fun provideAddPostRepo(firebaseAuth: FirebaseAuth,firestore: FirebaseFirestore,firebaseStorage: FirebaseStorage): AddPostRepo{
         return AddPostRepo(firebaseAuth,firebaseStorage,firestore)
+    }
+
+    @Provides
+    @Singleton
+    fun provideAddProductRepo(firebaseAuth: FirebaseAuth,firestore: FirebaseFirestore,firebaseStorage: FirebaseStorage): AddProductRepo{
+        return AddProductRepo(firebaseAuth,firestore,firebaseStorage)
     }
 }

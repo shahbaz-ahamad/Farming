@@ -21,4 +21,17 @@
     <string name="login_to_your_account">Login to your account</string>
     <string name="enter_email1">Enter Email</string>
     <string name="designed_by_rahul_and_shahbaz">Designed by Rahul and shahbaz</string>
+
+
+    <string-array name="stock_list">
+        <item>In Stock</item>
+        <item>Out of Stock</item>
+    </string-array>
+
+    <string-array name="category_list">
+        <item>Fertilizers</item>
+        <item>Pesticides</item>
+        <item>Seeds</item>
+        <item>Machinery</item>
+    </string-array>
 </resources>

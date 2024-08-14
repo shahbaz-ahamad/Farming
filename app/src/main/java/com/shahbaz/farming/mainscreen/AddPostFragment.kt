@@ -122,8 +122,7 @@ class AddPostFragment : Fragment() {
         ActivityResultContracts.GetContent()
     ) { uri ->
         imageUrl = uri.toString()
-        Glide.with(requireContext()).load(uri).into(binding.addImage)
-        binding.addImage.scaleType = ImageView.ScaleType.CENTER_CROP
+        Glide.with(requireContext()).load(imageUrl).into(binding.addImage)
     }
 
 

@@ -1,16 +1,12 @@
 package com.shahbaz.farming
 
-import android.app.Activity
 import android.app.AlertDialog
 import android.app.ProgressDialog
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.drawable.ColorDrawable
 import android.provider.Settings
 import android.os.Bundle
-import android.util.Log
 import android.view.MenuItem
-import android.view.View
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
@@ -18,7 +14,6 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
 import androidx.core.view.ViewCompat
@@ -27,8 +22,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.bumptech.glide.Glide
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationServices
 import com.shahbaz.farming.databinding.ActivityDashboardBinding
 import com.shahbaz.farming.datamodel.User
 import com.shahbaz.farming.permission.isLocationEnabled
@@ -37,7 +30,6 @@ import com.shahbaz.farming.util.Resources
 import com.shahbaz.farming.util.progressDialgoue
 import com.shahbaz.farming.util.showDialogue
 import com.shahbaz.farming.viewmodel.HomeFragmentViewmodel
-import com.shahbaz.farming.weather.WeatherViewmodel
 import dagger.hilt.android.AndroidEntryPoint
 import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.coroutines.launch
@@ -65,6 +57,7 @@ class DashboardActivity : AppCompatActivity() {
             insets
         }
         progressDialog = ProgressDialog(this)
+
 
         setupNavigationdrawer()
         homeFragmentViewmodel.getCurrentUserDetails()
@@ -94,6 +87,18 @@ class DashboardActivity : AppCompatActivity() {
                         homeFragmentViewmodel.signOut()
                         Toast.makeText(this, "Logout", Toast.LENGTH_SHORT).show()
                         goToMainActivity()
+                    }
+
+                    R.id.weather -> {
+                        navigateToFragmentfromDrawer(R.id.weatherFragment)
+                    }
+
+                    R.id.sellProduct -> {
+                        navigateToFragmentfromDrawer(R.id.addProductFragment)
+                    }
+
+                    R.id.seeYourProduct -> {
+                        navigateToFragmentfromDrawer(R.id.yourProductFragment)
                     }
                 }
                 binding.main.closeDrawer(GravityCompat.START)
@@ -207,6 +212,9 @@ class DashboardActivity : AppCompatActivity() {
             R.string.nav_open,
             R.string.nav_close
         )
+        actionBarDrawerToggle.getDrawerArrowDrawable()
+            .setColor(getResources().getColor(R.color.white));
+
         binding.main.addDrawerListener(actionBarDrawerToggle)
         actionBarDrawerToggle.syncState()
     }
@@ -280,6 +288,13 @@ class DashboardActivity : AppCompatActivity() {
             homeFragmentViewmodel.updateProfile(selectedProfileUrl)
         }
 
+    }
+
+    fun navigateToFragmentfromDrawer(fragmentId: Int) {
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.fragmentContainerView2) as NavHostFragment
+        val navController = navHostFragment.navController
+        navController.navigate(fragmentId)
     }
 
 }
