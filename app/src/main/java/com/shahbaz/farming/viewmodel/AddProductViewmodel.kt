@@ -15,6 +15,8 @@ class AddProductViewmodel @Inject constructor(
 
     val yourProductStatus = addProductRepo.fetchYourProductStatus
 
+    val fetchOtherProductStatus = addProductRepo.fetchOthersListedProductStatus
+
     fun addProduct(
         productImage: String,
         productTitle: String,
@@ -23,7 +25,7 @@ class AddProductViewmodel @Inject constructor(
         sellerPhoneNumber: String,
         productStatus: String,
         productCategory: String,
-        productDescription:String
+        productDescription: String
     ) {
         addProductRepo.addProduct(
             productImage,
@@ -38,7 +40,16 @@ class AddProductViewmodel @Inject constructor(
     }
 
 
-    fun fetchYourProduct(){
+    fun fetchYourProduct() {
         addProductRepo.fetchYourProduct()
+    }
+
+
+    fun fetchOtherProduct() {
+        addProductRepo.fetchOthersListedProduct()
+    }
+
+    fun resetProductStatus(){
+        addProductRepo.resetProductStatus()
     }
 }

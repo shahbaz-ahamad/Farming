@@ -23,6 +23,11 @@ class AddProductRepo(
     val fetchYourProductStatus = _fetchYourProductStatus.asStateFlow()
 
 
+    private val _fetchOthersListedProductStatus =
+        MutableStateFlow<Resources<List<Product>>>(Resources.Unspecified())
+    val fetchOthersListedProductStatus = _fetchOthersListedProductStatus.asStateFlow()
+
+
     fun addProduct(
         productImage: String,
         productTitle: String,
@@ -40,7 +45,7 @@ class AddProductRepo(
             .child(System.currentTimeMillis().toString() + productTitle)
             .putFile(Uri.parse(productImage))
             .addOnSuccessListener {
-                it.storage.downloadUrl.addOnSuccessListener {url ->
+                it.storage.downloadUrl.addOnSuccessListener { url ->
 
                     val product = Product(
                         productId = System.currentTimeMillis().toString() + productTitle,
@@ -75,7 +80,6 @@ class AddProductRepo(
 
 
     fun fetchYourProduct() {
-
         _fetchYourProductStatus.value = Resources.Loading()
         val currentUserUid = firebaseAuth.currentUser?.uid.toString()
 
@@ -90,4 +94,25 @@ class AddProductRepo(
                 _fetchYourProductStatus.value = Resources.Error(it.localizedMessage)
             }
     }
+
+    fun fetchOthersListedProduct() {
+        _fetchOthersListedProductStatus.value = Resources.Loading()
+
+        //fetch the product where sellerId doesn't equal to the current user id
+        firebaseFirestore.collection("FarmingProduct")
+            .whereNotEqualTo("sellerId", firebaseAuth.currentUser?.uid.toString())
+            .get()
+            .addOnSuccessListener {
+                val productList = it.toObjects(Product::class.java)
+                _fetchOthersListedProductStatus.value = Resources.Success(productList)
+            }
+            .addOnFailureListener {
+                _fetchOthersListedProductStatus.value = Resources.Error(it.localizedMessage)
+            }
+    }
+
+    fun resetProductStatus(){
+        _productStatus.value = Resources.Unspecified()
+    }
+
 }

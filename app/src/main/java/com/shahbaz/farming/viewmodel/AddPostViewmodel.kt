@@ -14,6 +14,7 @@ class AddPostViewmodel @Inject constructor(
     val postStatus =  addPostRepo.postStatus
     val fetchPost = addPostRepo.fetchPost
 
+
     fun addPost(title:String,description:String,imageUrl:String){
         addPostRepo.createPost(imageUrl,title,description)
     }

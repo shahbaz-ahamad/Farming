@@ -27,7 +27,7 @@ class YourProductAdaapter() : RecyclerView.Adapter<YourProductAdaapter.yourProdu
     }
 
 
-    private val diffutil = object : DiffUtil.ItemCallback<Product>() {
+    private val diffutil = object : DiffUtil.ItemCallback<Product>(){
         override fun areItemsTheSame(oldItem: Product, newItem: Product): Boolean {
             return oldItem.productId == newItem.productId
         }
