@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/onboarding_graph"
+    app:startDestination="@id/onBaordingFragment">
+
+    <fragment
+        android:id="@+id/onBaordingFragment"
+        android:name="com.shahbaz.farming.oboarding.OnBaordingFragment"
+        android:label="fragment_on_baording"
+        tools:layout="@layout/fragment_on_baording" >
+        <action
+            android:id="@+id/action_onBaordingFragment_to_firstScreen"
+            app:destination="@id/firstScreen" />
+        <action
+            android:id="@+id/action_onBaordingFragment_to_authentication_graph"
+            app:destination="@id/authentication_graph" />
+    </fragment>
+    <fragment
+        android:id="@+id/firstScreen"
+        android:name="com.shahbaz.farming.oboarding.onboardingscreen.FirstScreen"
+        android:label="fragment_first_screen"
+        tools:layout="@layout/fragment_first_screen" >
+        <action
+            android:id="@+id/action_firstScreen_to_secondScreen"
+            app:destination="@id/secondScreen" />
+    </fragment>
+    <fragment
+        android:id="@+id/secondScreen"
+        android:name="com.shahbaz.farming.oboarding.onboardingscreen.SecondScreen"
+        android:label="fragment_second_screen"
+        tools:layout="@layout/fragment_second_screen" >
+        <action
+            android:id="@+id/action_secondScreen_to_thirdScreen"
+            app:destination="@id/thirdScreen" />
+    </fragment>
+    <fragment
+        android:id="@+id/thirdScreen"
+        android:name="com.shahbaz.farming.oboarding.onboardingscreen.ThirdScreen"
+        android:label="fragment_third_screen"
+        tools:layout="@layout/fragment_third_screen" >
+        <action
+            android:id="@+id/action_thirdScreen_to_fourthScreen"
+            app:destination="@id/fourthScreen" />
+        <action
+            android:id="@+id/action_thirdScreen_to_secondScreen"
+            app:destination="@id/secondScreen" />
+        <action
+            android:id="@+id/action_thirdScreen_to_fourthScreen2"
+            app:destination="@id/fourthScreen" />
+    </fragment>
+    <fragment
+        android:id="@+id/fourthScreen"
+        android:name="com.shahbaz.farming.oboarding.onboardingscreen.FourthScreen"
+        android:label="fragment_fourth_screen"
+        tools:layout="@layout/fragment_fourth_screen" >
+        <action
+            android:id="@+id/action_fourthScreen_to_thirdScreen"
+            app:destination="@id/thirdScreen" />
+    </fragment>
+
+
+    <navigation
+        android:id="@+id/authentication_graph"
+        app:startDestination="@id/loginFragment">
+
+        <fragment
+            android:id="@+id/loginFragment"
+            android:name="com.shahbaz.farming.authentication.LoginFragment"
+            android:label="fragment_login"
+            tools:layout="@layout/fragment_login" >
+            <action
+                android:id="@+id/action_loginFragment_to_signUpFragment"
+                app:destination="@id/signUpFragment" />
+        </fragment>
+        <fragment
+            android:id="@+id/signUpFragment"
+            android:name="com.shahbaz.farming.authentication.SignUpFragment"
+            android:label="fragment_sign_up"
+            tools:layout="@layout/fragment_sign_up" >
+            <action
+                android:id="@+id/action_signUpFragment_to_loginFragment"
+                app:destination="@id/loginFragment" />
+        </fragment>
+    </navigation>
+
+
+</navigation>

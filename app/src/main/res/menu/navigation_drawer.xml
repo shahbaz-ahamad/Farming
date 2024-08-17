@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/logout"
+        android:icon="@drawable/baseline_logout_24"
+        android:title="Logout"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/weather"
+        android:icon="@drawable/weather"
+        android:title="Weather"
+        app:showAsAction="ifRoom" />
+
+
+    <item
+        android:id="@+id/sellProduct"
+        android:icon="@drawable/buy"
+        android:title="Sell Product"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/seeYourProduct"
+        android:icon="@drawable/your_product"
+        android:title="See Your Product"
+        app:showAsAction="ifRoom" />
+
+</menu>
