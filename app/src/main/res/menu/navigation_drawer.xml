@@ -3,9 +3,28 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:title="Logout"
         android:id="@+id/logout"
         android:icon="@drawable/baseline_logout_24"
-        app:showAsAction="ifRoom"
-        />
+        android:title="Logout"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/weather"
+        android:icon="@drawable/weather"
+        android:title="Weather"
+        app:showAsAction="ifRoom" />
+
+
+    <item
+        android:id="@+id/sellProduct"
+        android:icon="@drawable/buy"
+        android:title="Sell Product"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/seeYourProduct"
+        android:icon="@drawable/your_product"
+        android:title="See Your Product"
+        app:showAsAction="ifRoom" />
+
 </menu>

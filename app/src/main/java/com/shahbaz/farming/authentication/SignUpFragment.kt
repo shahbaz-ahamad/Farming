@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.shahbaz.farming.R
 import com.shahbaz.farming.databinding.FragmentSignUpBinding
 import com.shahbaz.farming.util.Resources
@@ -19,6 +20,8 @@ class SignUpFragment : Fragment() {
 
     private lateinit var binding: FragmentSignUpBinding
     private val authenticationViewmodel by viewModels<AuthenticationViewmodel>()
+    val email:String?=null
+    val password:String?=null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,7 +40,30 @@ class SignUpFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        authenticationViewmodel.createUser("shahbaz1@gmail.com", "HeyThis1234","Shahbaz")
+        binding.button.setOnClickListener {
+            binding.apply {
+                val name = Name.text.toString().trim()
+                val email = Emailorphone.text.toString().trim()
+                val password = Loginpassword.text.toString().trim()
+                val confirmPassword = cnfpassword.text.toString().trim()
+
+                if (name.isEmpty() || email.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
+                    Toast.makeText(requireContext(), "Please fill all the fields", Toast.LENGTH_SHORT).show()
+                    return@setOnClickListener
+                }else if(password != confirmPassword){
+                    Toast.makeText(requireContext(), "Password does not match", Toast.LENGTH_SHORT).show()
+                    return@setOnClickListener
+                }else{
+                    binding.progressBar.visibility = View.VISIBLE
+
+                    authenticationViewmodel.createUser(email,password,name)
+                }
+            }
+        }
+
+        binding.alreadyHaveAccount.setOnClickListener {
+            findNavController().navigate(R.id.action_signUpFragment_to_loginFragment)
+        }
         observeAuthentication()
     }
 
@@ -46,16 +72,22 @@ class SignUpFragment : Fragment() {
             authenticationViewmodel.authenticationState.collect {
                 when (it) {
                     is Resources.Loading -> {
-
+                        binding.progressBar.visibility=View.VISIBLE
                     }
 
                     is Resources.Error -> {
                         Toast.makeText(requireContext(),it.message,Toast.LENGTH_SHORT).show()
+                        binding.progressBar.visibility=View.GONE
                     }
 
                     is Resources.Success -> {
-                        Toast.makeText(requireContext(),"Login Succesfull",Toast.LENGTH_SHORT).show()
-
+                        val data = Bundle().apply {
+                            putString("email",email)
+                            putString("password",password)
+                        }
+                        Toast.makeText(requireContext(),"Signup Successfully",Toast.LENGTH_SHORT).show()
+                        binding.progressBar.visibility=View.GONE
+                        findNavController().navigate(R.id.action_signUpFragment_to_loginFragment,data)
                     }
 
                     is Resources.Unspecified -> {

@@ -28,4 +28,24 @@
             android:id="@+id/action_addPostFragment_to_postFragment2"
             app:destination="@id/postFragment2" />
     </fragment>
+    <fragment
+        android:id="@+id/weatherFragment"
+        android:name="com.shahbaz.farming.weather.fragment.WeatherFragment"
+        android:label="fragment_weather"
+        tools:layout="@layout/fragment_weather" />
+    <fragment
+        android:id="@+id/ecommerceFragment"
+        android:name="com.shahbaz.farming.mainscreen.EcommerceFragment"
+        android:label="fragment_ecommerce"
+        tools:layout="@layout/fragment_ecommerce" />
+    <fragment
+        android:id="@+id/addProductFragment"
+        android:name="com.shahbaz.farming.mainscreen.AddProductFragment"
+        android:label="fragment_add_product"
+        tools:layout="@layout/fragment_add_product" />
+    <fragment
+        android:id="@+id/yourProductFragment"
+        android:name="com.shahbaz.farming.mainscreen.YourProductFragment"
+        android:label="fragment_your_product"
+        tools:layout="@layout/fragment_your_product" />
 </navigation>

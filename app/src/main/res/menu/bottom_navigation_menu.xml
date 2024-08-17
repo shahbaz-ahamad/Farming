@@ -12,4 +12,11 @@
         android:icon="@drawable/post_logo"
         />
 
+
+    <item
+        android:id="@+id/ecommerceFragment"
+        android:title="E-Commerce"
+        android:icon="@drawable/buy"
+        />
+
 </menu>

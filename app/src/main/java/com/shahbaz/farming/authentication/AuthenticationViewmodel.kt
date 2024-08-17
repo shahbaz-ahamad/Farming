@@ -19,4 +19,8 @@ class AuthenticationViewmodel @Inject constructor(
     fun signInWithEmailAndPassword(email: String,password: String){
         authenticationRepositiory.signInWithEmailAndPassword(email,password)
     }
+
+    fun  isLoggedIn():Boolean{
+       return authenticationRepositiory.isLoggedIn()
+    }
 }
