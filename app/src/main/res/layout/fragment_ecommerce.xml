@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.appcompat.widget.LinearLayoutCompat
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginTop="10dp"
-    android:orientation="vertical"
     tools:context=".mainscreen.EcommerceFragment">
 
 
@@ -13,26 +13,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp" />
-
-    <com.google.android.material.progressindicator.LinearProgressIndicator
-        android:id="@+id/progressBar"
-        android:layout_width="match_parent"
-        android:layout_height="3dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="10dp"
-        android:indeterminateTint="@color/green"
-        android:indeterminate="true"
-        android:visibility="gone" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/otherProductRecyclerview"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="10dp"
-        tools:listitem="@layout/other_product_item" />
+        android:layout_marginEnd="10dp"/>
 
 </androidx.appcompat.widget.LinearLayoutCompat>

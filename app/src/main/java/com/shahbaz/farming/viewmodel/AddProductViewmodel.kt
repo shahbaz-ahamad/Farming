@@ -16,12 +16,15 @@ class AddProductViewmodel @Inject constructor(
 
     val yourProductStatus = addProductRepo.fetchYourProductStatus
 
+<<<<<<< HEAD
     val fetchOtherProductStatus = addProductRepo.fetchOthersListedProductStatus
 
     val deleteProductStatus = addProductRepo.deleteProduct
 
     val updateProductStatus = addProductRepo.updateProuct
 
+=======
+>>>>>>> 36a6260 (detached brahcned)
     fun addProduct(
         productImage: String,
         productTitle: String,
@@ -30,7 +33,7 @@ class AddProductViewmodel @Inject constructor(
         sellerPhoneNumber: String,
         productStatus: String,
         productCategory: String,
-        productDescription: String
+        productDescription:String
     ) {
         addProductRepo.addProduct(
             productImage,
@@ -45,9 +48,10 @@ class AddProductViewmodel @Inject constructor(
     }
 
 
-    fun fetchYourProduct() {
+    fun fetchYourProduct(){
         addProductRepo.fetchYourProduct()
     }
+<<<<<<< HEAD
 
 
     fun fetchOtherProduct() {
@@ -74,4 +78,6 @@ class AddProductViewmodel @Inject constructor(
     fun resetUpdateState(){
         addProductRepo.resetUpdateStatus()
     }
+=======
+>>>>>>> 36a6260 (detached brahcned)
 }

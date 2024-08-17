@@ -243,7 +243,6 @@ class AddProductFragment : Fragment(), AdapterView.OnItemSelectedListener {
                         progressDialog.hide()
                         Toast.makeText(requireContext(), it.data, Toast.LENGTH_SHORT).show()
                         clearAllEditText()
-                        addProductViewmodel.resetProductStatus()
 
                     }
 
@@ -257,7 +256,6 @@ class AddProductFragment : Fragment(), AdapterView.OnItemSelectedListener {
 
     private fun clearAllEditText() {
         binding.apply {
-            productImage.setImageResource(R.drawable.baseline_add_24)
             etTitle.text.clear()
             etQuantity.text.clear()
             etPrice.text.clear()
