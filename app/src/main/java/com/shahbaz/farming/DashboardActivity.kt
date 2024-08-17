@@ -100,6 +100,9 @@ class DashboardActivity : AppCompatActivity() {
                     R.id.seeYourProduct -> {
                         navigateToFragmentfromDrawer(R.id.yourProductFragment)
                     }
+                    R.id.cartItem -> {
+                        navigateToFragmentfromDrawer(R.id.cartFragment)
+                    }
                 }
                 binding.main.closeDrawer(GravityCompat.START)
                 return@setNavigationItemSelectedListener true
@@ -294,7 +297,15 @@ class DashboardActivity : AppCompatActivity() {
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.fragmentContainerView2) as NavHostFragment
         val navController = navHostFragment.navController
-        navController.navigate(fragmentId)
+        if (fragmentId == R.id.addProductFragment) {
+            val data = Bundle().apply {
+                putParcelable("productUpdate", null)
+            }
+            navController.navigate(fragmentId, data)
+        } else {
+            navController.navigate(fragmentId)
+        }
+
     }
 
 }

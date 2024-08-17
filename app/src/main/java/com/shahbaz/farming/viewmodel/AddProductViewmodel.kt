@@ -1,6 +1,7 @@
 package com.shahbaz.farming.viewmodel
 
 import androidx.lifecycle.ViewModel
+import com.shahbaz.farming.datamodel.Product
 import com.shahbaz.farming.repo.AddProductRepo
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -16,6 +17,10 @@ class AddProductViewmodel @Inject constructor(
     val yourProductStatus = addProductRepo.fetchYourProductStatus
 
     val fetchOtherProductStatus = addProductRepo.fetchOthersListedProductStatus
+
+    val deleteProductStatus = addProductRepo.deleteProduct
+
+    val updateProductStatus = addProductRepo.updateProuct
 
     fun addProduct(
         productImage: String,
@@ -49,7 +54,24 @@ class AddProductViewmodel @Inject constructor(
         addProductRepo.fetchOthersListedProduct()
     }
 
-    fun resetProductStatus(){
+    fun resetProductStatus() {
         addProductRepo.resetProductStatus()
+    }
+
+    fun deleteProduct(productId: String) {
+        addProductRepo.deleteProduct(productId)
+    }
+
+    fun updateProductwithImage(productID: String, product: Product) {
+        addProductRepo.updateProductWithImage(productID, product)
+    }
+
+    fun updateProduct(productID: String, product: Product) {
+        addProductRepo.updateProductWithOutImageChange(productID, product)
+
+    }
+
+    fun resetUpdateState(){
+        addProductRepo.resetUpdateStatus()
     }
 }

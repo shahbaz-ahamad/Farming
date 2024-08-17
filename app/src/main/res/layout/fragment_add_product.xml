@@ -3,8 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true"
     android:layout_marginBottom="100dp"
+    android:fillViewport="true"
     tools:context=".mainscreen.AddProductFragment">
 
     <androidx.appcompat.widget.LinearLayoutCompat
@@ -12,7 +12,6 @@
         android:layout_height="match_parent"
         android:layout_margin="10dp"
         android:orientation="vertical">
-
 
         <TextView
             android:layout_width="match_parent"
@@ -137,17 +136,40 @@
             android:textColor="@color/black" />
 
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/addProduct"
-            android:layout_width="200dp"
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
             android:layout_marginTop="20dp"
-            android:background="@drawable/button_drawable"
-            android:gravity="center"
-            android:padding="5dp"
-            android:text="Add Prodcut"
-            android:textAllCaps="false" />
+            android:layout_marginBottom="30dp">
+
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/updateProduct"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@drawable/button_drawable"
+                android:gravity="center"
+                android:padding="5dp"
+                android:layout_weight="1"
+                android:text="Update Prodcut"
+                android:layout_marginEnd="10dp"
+                android:textAllCaps="false"
+                android:visibility="gone"/>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/addProduct"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@drawable/button_drawable"
+                android:gravity="center"
+                android:padding="5dp"
+                android:layout_weight="1"
+                android:text="Add Prodcut"
+                android:textAllCaps="false" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 

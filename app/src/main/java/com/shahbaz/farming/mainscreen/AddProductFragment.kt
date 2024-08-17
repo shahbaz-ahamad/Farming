@@ -13,9 +13,11 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.shahbaz.farming.R
 import com.shahbaz.farming.databinding.FragmentAddProductBinding
+import com.shahbaz.farming.datamodel.Product
 import com.shahbaz.farming.util.Resources
 import com.shahbaz.farming.util.progressDialgoue
 import com.shahbaz.farming.viewmodel.AddProductViewmodel
@@ -29,6 +31,7 @@ class AddProductFragment : Fragment(), AdapterView.OnItemSelectedListener {
     private lateinit var binding: FragmentAddProductBinding
     private lateinit var progressDialog: ProgressDialog
     private val addProductViewmodel by viewModels<AddProductViewmodel>()
+    private val args by navArgs<AddProductFragmentArgs>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -116,6 +119,111 @@ class AddProductFragment : Fragment(), AdapterView.OnItemSelectedListener {
         }
 
         observeAddingOfProduct()
+
+
+        handleArgumentPassed()
+
+        binding.updateProduct.setOnClickListener {
+
+            progressDialgoue(progressDialog, "Updating Product...", "Update in Progress")
+            val quantity = binding.etQuantity.text.toString()
+            val price = binding.etPrice.text.toString()
+            val phone = binding.etPhoneNumber.text.toString()
+            val description = binding.etDescription.text.toString()
+
+            if (selectedImageUrl.isEmpty()) {
+                val argument = args.productUpdate
+                argument?.let {
+                    val product = Product(
+                        productId = it.productId,
+                        productImage = it.productImage,
+                        title = it.title,
+                        quantity = quantity,
+                        price = price,
+                        phone = phone,
+                        description = description,
+                        sellerId = it.sellerId,
+                        stock = selectedStock,
+                        category = selectedCategory
+                    )
+                    addProductViewmodel.updateProduct(argument.productId!!, product)
+                }
+            } else {
+                val argument = args.productUpdate
+                argument?.let {
+                    val product = Product(
+                        productId = it.productId,
+                        productImage = selectedImageUrl,
+                        title = it.title,
+                        quantity = quantity,
+                        price = price,
+                        description = description,
+                        sellerId = it.sellerId,
+                        stock = selectedStock,
+                        category = selectedCategory
+                    )
+                    addProductViewmodel.updateProductwithImage(argument.productId!!, product)
+                }
+            }
+
+        }
+
+        observeUpdate()
+
+    }
+
+    private fun observeUpdate() {
+        lifecycleScope.launch {
+            addProductViewmodel.updateProductStatus.collect {
+                when (it) {
+                    is Resources.Error -> {
+                        progressDialog.hide()
+                        Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
+                        addProductViewmodel.updateProductStatus
+                    }
+
+                    is Resources.Loading -> {
+
+                    }
+
+                    is Resources.Success -> {
+                        progressDialog.hide()
+                        Toast.makeText(requireContext(), it.data, Toast.LENGTH_SHORT).show()
+                        clearAllEditText()
+                        addProductViewmodel.resetUpdateState()
+                    }
+
+                    else -> Unit
+                }
+            }
+        }
+    }
+
+    private fun handleArgumentPassed() {
+        val product = args.productUpdate
+        product?.let {
+            binding.apply {
+                Glide.with(requireContext()).load(product.productImage).into(productImage)
+                etTitle.setText(product.title)
+                etTitle.isEnabled = false
+                etQuantity.setText(product.quantity)
+                etPrice.setText(product.price)
+                etPhoneNumber.setText(product.phone)
+                etDescription.setText(product.description)
+                updateProduct.visibility = View.VISIBLE
+                addProduct.visibility = View.GONE
+                //for the stock spinnner
+                val stockAdapter = stockSpinner.adapter as ArrayAdapter<String>
+                val position = stockAdapter.getPosition(product.stock)
+                stockSpinner.setSelection(position, false)
+                selectedStock = product.stock.toString()
+                //for the category spinner
+                val categoryAdapter = categorySpinner.adapter as ArrayAdapter<String>
+                val categoryPosition = categoryAdapter.getPosition(product.category)
+                categorySpinner.setSelection(categoryPosition, false)
+                selectedCategory = product.category.toString()
+            }
+        }
     }
 
     private fun observeAddingOfProduct() {
@@ -186,7 +294,6 @@ class AddProductFragment : Fragment(), AdapterView.OnItemSelectedListener {
             selectedImageUrl = uri.toString()
             Glide.with(requireContext()).load(uri.toString()).into(binding.productImage)
         }
-
     }
 
 }

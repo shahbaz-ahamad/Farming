@@ -27,7 +27,7 @@ class YourProductAdaapter() : RecyclerView.Adapter<YourProductAdaapter.yourProdu
     }
 
 
-    private val diffutil = object : DiffUtil.ItemCallback<Product>(){
+    private val diffutil = object : DiffUtil.ItemCallback<Product>() {
         override fun areItemsTheSame(oldItem: Product, newItem: Product): Boolean {
             return oldItem.productId == newItem.productId
         }
@@ -57,5 +57,20 @@ class YourProductAdaapter() : RecyclerView.Adapter<YourProductAdaapter.yourProdu
     override fun onBindViewHolder(holder: yourProductViewholder, position: Int) {
         val productItem = differ.currentList[position]
         holder.bind(productItem)
+        holder.itemView.setOnClickListener {
+            onClick?.invoke(productItem)
+        }
+
+        holder.binding.deleteButton.setOnClickListener {
+            onDeleteClick?.invoke(productItem.productId!!)
+        }
+
+        holder.binding.updateButton.setOnClickListener {
+            onUpdateClick?.invoke(productItem)
+        }
     }
+
+    var onClick: ((Product) -> Unit)? = null
+    var onDeleteClick: ((String) -> Unit)? = null
+    var onUpdateClick :((Product) -> Unit)? = null
 }

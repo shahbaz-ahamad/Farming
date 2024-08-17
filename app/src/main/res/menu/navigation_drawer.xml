@@ -2,11 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item
-        android:id="@+id/logout"
-        android:icon="@drawable/baseline_logout_24"
-        android:title="Logout"
-        app:showAsAction="ifRoom" />
+
 
     <item
         android:id="@+id/weather"
@@ -25,6 +21,19 @@
         android:id="@+id/seeYourProduct"
         android:icon="@drawable/your_product"
         android:title="See Your Product"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/cartItem"
+        android:icon="@drawable/cart"
+        android:title="Cart Item"
+        app:showAsAction="ifRoom" />
+
+
+    <item
+        android:id="@+id/logout"
+        android:icon="@drawable/baseline_logout_24"
+        android:title="Logout"
         app:showAsAction="ifRoom" />
 
 </menu>

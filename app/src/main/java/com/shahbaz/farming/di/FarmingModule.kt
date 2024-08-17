@@ -8,6 +8,8 @@ import com.shahbaz.farming.authentication.AuthenticationRepositiory
 import com.shahbaz.farming.oboarding.onboardingrepo.OnBoardingRepo
 import com.shahbaz.farming.repo.AddPostRepo
 import com.shahbaz.farming.repo.AddProductRepo
+import com.shahbaz.farming.repo.CartRepo
+import com.shahbaz.farming.repo.Detailsfragmentrepo
 import com.shahbaz.farming.repo.HomeFragmentRepositiory
 import com.shahbaz.farming.retrofit.WeatherApi
 import com.shahbaz.farming.util.Constant.Companion.WEATHER_BASE_URL
@@ -30,26 +32,29 @@ object FarmingModule {
 
     @Provides
     @Singleton
-    fun provideOnboardingRepo(@ApplicationContext context: Context):OnBoardingRepo{
+    fun provideOnboardingRepo(@ApplicationContext context: Context): OnBoardingRepo {
         return OnBoardingRepo(context)
     }
 
     @Provides
     @Singleton
-    fun provideFirebaseAuth():FirebaseAuth{
+    fun provideFirebaseAuth(): FirebaseAuth {
         return FirebaseAuth.getInstance()
     }
 
     @Provides
     @Singleton
-    fun provideFirebaseFirestore():FirebaseFirestore{
+    fun provideFirebaseFirestore(): FirebaseFirestore {
         return FirebaseFirestore.getInstance()
     }
 
     @Provides
     @Singleton
-    fun provideAuthenticationViewmodel(firebaseAuth: FirebaseAuth,firestore: FirebaseFirestore):AuthenticationRepositiory{
-        return AuthenticationRepositiory(firebaseAuth,firestore)
+    fun provideAuthenticationViewmodel(
+        firebaseAuth: FirebaseAuth,
+        firestore: FirebaseFirestore
+    ): AuthenticationRepositiory {
+        return AuthenticationRepositiory(firebaseAuth, firestore)
     }
 
 
@@ -82,37 +87,61 @@ object FarmingModule {
 
     @Provides
     @Singleton
-    fun provideWeatherApi(retrofit: Retrofit):WeatherApi{
+    fun provideWeatherApi(retrofit: Retrofit): WeatherApi {
         return retrofit.create(WeatherApi::class.java)
     }
 
     @Provides
     @Singleton
-    fun provideWeatherRepo(weatherApi: WeatherApi):WeatherRepo{
+    fun provideWeatherRepo(weatherApi: WeatherApi): WeatherRepo {
         return WeatherRepo(weatherApi)
     }
 
     @Provides
     @Singleton
-    fun provideHomeRepo(firebaseAuth: FirebaseAuth,firestore: FirebaseFirestore,firebaseStorage: FirebaseStorage): HomeFragmentRepositiory{
-        return HomeFragmentRepositiory(firebaseAuth,firestore,firebaseStorage)
+    fun provideHomeRepo(
+        firebaseAuth: FirebaseAuth,
+        firestore: FirebaseFirestore,
+        firebaseStorage: FirebaseStorage
+    ): HomeFragmentRepositiory {
+        return HomeFragmentRepositiory(firebaseAuth, firestore, firebaseStorage)
     }
 
     @Provides
     @Singleton
-    fun provideFirebaseStorage():FirebaseStorage{
+    fun provideFirebaseStorage(): FirebaseStorage {
         return FirebaseStorage.getInstance()
     }
 
     @Provides
     @Singleton
-    fun provideAddPostRepo(firebaseAuth: FirebaseAuth,firestore: FirebaseFirestore,firebaseStorage: FirebaseStorage): AddPostRepo{
-        return AddPostRepo(firebaseAuth,firebaseStorage,firestore)
+    fun provideAddPostRepo(
+        firebaseAuth: FirebaseAuth,
+        firestore: FirebaseFirestore,
+        firebaseStorage: FirebaseStorage
+    ): AddPostRepo {
+        return AddPostRepo(firebaseAuth, firebaseStorage, firestore)
     }
 
     @Provides
     @Singleton
-    fun provideAddProductRepo(firebaseAuth: FirebaseAuth,firestore: FirebaseFirestore,firebaseStorage: FirebaseStorage): AddProductRepo{
-        return AddProductRepo(firebaseAuth,firestore,firebaseStorage)
+    fun provideAddProductRepo(
+        firebaseAuth: FirebaseAuth,
+        firestore: FirebaseFirestore,
+        firebaseStorage: FirebaseStorage
+    ): AddProductRepo {
+        return AddProductRepo(firebaseAuth, firestore, firebaseStorage)
+    }
+
+    @Provides
+    @Singleton
+    fun provideDetailsFragmentrepo(firestore: FirebaseFirestore): Detailsfragmentrepo {
+        return Detailsfragmentrepo(firestore)
+    }
+
+    @Provides
+    @Singleton
+    fun provideCartRepo(firestore: FirebaseFirestore): CartRepo {
+        return CartRepo(firestore)
     }
 }

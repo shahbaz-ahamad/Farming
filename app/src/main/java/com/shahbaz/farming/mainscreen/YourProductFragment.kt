@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.shahbaz.farming.R
 import com.shahbaz.farming.adapter.YourProductAdaapter
@@ -48,6 +49,52 @@ class YourProductFragment : Fragment() {
         addProductViewmodel.fetchYourProduct()
         observeYourProduct()
 
+        yourProductAdaapter.onClick = { product ->
+            val action =
+                YourProductFragmentDirections.actionYourProductFragmentToProductDetailFragment(
+                    product,"yourProduct"
+                )
+
+            findNavController().navigate(action)
+        }
+
+        yourProductAdaapter.onDeleteClick = { productId ->
+            binding.progressbar.visibility = View.VISIBLE
+            addProductViewmodel.deleteProduct(productId)
+        }
+
+        yourProductAdaapter.onUpdateClick = {
+            val action =
+                YourProductFragmentDirections.actionYourProductFragmentToAddProductFragment(it)
+            findNavController().navigate(action)
+        }
+
+        observeProductdelete()
+
+    }
+
+    private fun observeProductdelete() {
+        lifecycleScope.launch {
+            addProductViewmodel.deleteProductStatus.collect {
+                when (it) {
+                    is Resources.Error -> {
+                        binding.progressbar.visibility = View.GONE
+                        Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
+                    }
+
+                    is Resources.Loading -> {}
+                    is Resources.Success -> {
+                        addProductViewmodel.fetchYourProduct()
+                        binding.progressbar.visibility = View.GONE
+                        Toast.makeText(requireContext(), it.data.toString(), Toast.LENGTH_SHORT)
+                            .show()
+
+                    }
+
+                    is Resources.Unspecified -> {}
+                }
+            }
+        }
     }
 
     private fun observeYourProduct() {

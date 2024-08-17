@@ -4,6 +4,8 @@ plugins {
     id("kotlin-kapt")
     id("com.google.dagger.hilt.android")
     alias(libs.plugins.google.gms.google.services)
+    id("kotlin-parcelize")
+    id("androidx.navigation.safeargs")
 }
 
 android {

@@ -14,7 +14,7 @@
         android:id="@+id/postFragment2"
         android:name="com.shahbaz.farming.mainscreen.PostFragment"
         android:label="fragment_post"
-        tools:layout="@layout/fragment_post" >
+        tools:layout="@layout/fragment_post">
         <action
             android:id="@+id/action_postFragment2_to_addPostFragment"
             app:destination="@id/addPostFragment" />
@@ -23,7 +23,7 @@
         android:id="@+id/addPostFragment"
         android:name="com.shahbaz.farming.mainscreen.AddPostFragment"
         android:label="fragment_add_post"
-        tools:layout="@layout/fragment_add_post" >
+        tools:layout="@layout/fragment_add_post">
         <action
             android:id="@+id/action_addPostFragment_to_postFragment2"
             app:destination="@id/postFragment2" />
@@ -37,15 +37,55 @@
         android:id="@+id/ecommerceFragment"
         android:name="com.shahbaz.farming.mainscreen.EcommerceFragment"
         android:label="fragment_ecommerce"
-        tools:layout="@layout/fragment_ecommerce" />
+        tools:layout="@layout/fragment_ecommerce">
+        <action
+            android:id="@+id/action_ecommerceFragment_to_productDetailFragment"
+            app:destination="@id/productDetailFragment" />
+    </fragment>
     <fragment
         android:id="@+id/addProductFragment"
         android:name="com.shahbaz.farming.mainscreen.AddProductFragment"
         android:label="fragment_add_product"
-        tools:layout="@layout/fragment_add_product" />
+        tools:layout="@layout/fragment_add_product">
+        <argument
+            android:name="productUpdate"
+            app:argType="com.shahbaz.farming.datamodel.Product"
+            app:nullable="true" />
+    </fragment>
     <fragment
         android:id="@+id/yourProductFragment"
         android:name="com.shahbaz.farming.mainscreen.YourProductFragment"
         android:label="fragment_your_product"
-        tools:layout="@layout/fragment_your_product" />
+        tools:layout="@layout/fragment_your_product">
+        <action
+            android:id="@+id/action_yourProductFragment_to_productDetailFragment"
+            app:destination="@id/productDetailFragment" />
+        <action
+            android:id="@+id/action_yourProductFragment_to_addProductFragment"
+            app:destination="@id/addProductFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/productDetailFragment"
+        android:name="com.shahbaz.farming.mainscreen.ProductDetailFragment"
+        android:label="fragment_product_detail"
+        tools:layout="@layout/fragment_product_detail">
+        <action
+            android:id="@+id/action_productDetailFragment_to_yourProductFragment"
+            app:destination="@id/yourProductFragment" />
+        <action
+            android:id="@+id/action_productDetailFragment_to_ecommerceFragment"
+            app:destination="@id/ecommerceFragment" />
+        <argument
+            android:name="product"
+            app:argType="com.shahbaz.farming.datamodel.Product" />
+        <argument
+            android:name="source"
+            app:argType="string"
+            app:nullable="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/cartFragment"
+        android:name="com.shahbaz.farming.mainscreen.CartFragment"
+        android:label="fragment_cart"
+        tools:layout="@layout/fragment_cart" />
 </navigation>

@@ -1,6 +1,7 @@
 package com.shahbaz.farming.repo
 
 import android.net.Uri
+import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
@@ -27,6 +28,13 @@ class AddProductRepo(
         MutableStateFlow<Resources<List<Product>>>(Resources.Unspecified())
     val fetchOthersListedProductStatus = _fetchOthersListedProductStatus.asStateFlow()
 
+    private val _deleteProduct = MutableStateFlow<Resources<String>>(Resources.Unspecified())
+    val deleteProduct = _deleteProduct.asStateFlow()
+
+
+    private val _updateProduct = MutableStateFlow<Resources<String>>(Resources.Unspecified())
+    val updateProuct = _updateProduct.asStateFlow()
+
 
     fun addProduct(
         productImage: String,
@@ -40,6 +48,7 @@ class AddProductRepo(
     ) {
         _productStatus.value = Resources.Loading()
         val currentUserUid = firebaseAuth.currentUser?.uid.toString()
+        val productId = System.currentTimeMillis().toString() + productTitle
 
         firbaseStorage.getReference("FarmingProduct")
             .child(System.currentTimeMillis().toString() + productTitle)
@@ -48,7 +57,7 @@ class AddProductRepo(
                 it.storage.downloadUrl.addOnSuccessListener { url ->
 
                     val product = Product(
-                        productId = System.currentTimeMillis().toString() + productTitle,
+                        productId = productId,
                         productImage = url.toString(),
                         title = productTitle,
                         quantity = productQuantity,
@@ -60,7 +69,7 @@ class AddProductRepo(
                         description = productDescription
                     )
                     firebaseFirestore.collection("FarmingProduct")
-                        .document()
+                        .document(productId)
                         .set(product)
                         .addOnSuccessListener {
                             _productStatus.value = Resources.Success("Product Added")
@@ -97,7 +106,6 @@ class AddProductRepo(
 
     fun fetchOthersListedProduct() {
         _fetchOthersListedProductStatus.value = Resources.Loading()
-
         //fetch the product where sellerId doesn't equal to the current user id
         firebaseFirestore.collection("FarmingProduct")
             .whereNotEqualTo("sellerId", firebaseAuth.currentUser?.uid.toString())
@@ -111,8 +119,84 @@ class AddProductRepo(
             }
     }
 
-    fun resetProductStatus(){
+    fun resetProductStatus() {
         _productStatus.value = Resources.Unspecified()
     }
 
+
+    fun deleteProduct(productID: String) {
+        _deleteProduct.value = Resources.Loading()
+        //code to delete the product
+        Log.d("ProductId", productID)
+        //write the code to delete the product where productId is equal to passed productId
+        firebaseFirestore.collection("FarmingProduct").document(productID)
+            .delete()
+            .addOnSuccessListener {
+                _deleteProduct.value = Resources.Success("Product Deleted")
+            }
+            .addOnFailureListener {
+                _deleteProduct.value = Resources.Error(it.localizedMessage)
+            }
+    }
+
+    fun updateProductWithImage(productID: String, product: Product) {
+        _updateProduct.value = Resources.Loading()
+
+        firbaseStorage.getReference("FarmingProduct")
+            .child(System.currentTimeMillis().toString() + product.title)
+            .putFile(Uri.parse(product.productImage))
+            .addOnSuccessListener { snapshot ->
+                snapshot.storage.downloadUrl.addOnSuccessListener { url ->
+                    val product = Product(
+                        productId = product.productId,
+                        productImage = url.toString(),
+                        title = product.title,
+                        quantity = product.quantity,
+                        price = product.price,
+                        phone = product.phone,
+                        stock = product.stock,
+                        category = product.category,
+                        sellerId = product.sellerId,
+                        description = product.description
+                    )
+
+                    firebaseFirestore.collection("FarmingProduct").document(productID)
+                        .set(product)
+                        .addOnSuccessListener {
+                            _updateProduct.value = Resources.Success("Product Updated")
+                        }
+                        .addOnFailureListener {
+                            _updateProduct.value = Resources.Error(it.localizedMessage)
+                        }
+
+
+                }
+                    .addOnFailureListener {
+                        _updateProduct.value = Resources.Error(it.localizedMessage)
+                    }
+            }
+            .addOnFailureListener {
+                _updateProduct.value = Resources.Error(it.localizedMessage)
+
+            }
+        //write the code to update the product
+        firebaseFirestore.collection("FarmingProduct").document(productID)
+        //.update()
+    }
+
+    fun updateProductWithOutImageChange(productID: String, product: Product) {
+        _updateProduct.value = Resources.Loading()
+        firebaseFirestore.collection("FarmingProduct").document(productID)
+            .set(product)
+            .addOnSuccessListener {
+                _updateProduct.value = Resources.Success("Product Updated")
+            }
+            .addOnFailureListener {
+                _updateProduct.value = Resources.Error(it.localizedMessage)
+            }
+    }
+
+    fun resetUpdateStatus(){
+        _updateProduct.value = Resources.Unspecified()
+    }
 }

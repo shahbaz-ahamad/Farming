@@ -22,8 +22,8 @@ class OtherProductAdapter : RecyclerView.Adapter<OtherProductAdapter.OtherProduc
                 binding.apply {
                     Glide.with(itemView).load(item.productImage).into(productImage)
                     productTitle.text = item.title
-                    productPrice.text = item.price
-                    productQuantity.text = item.quantity
+                    productPrice.text = "Rs:${item.price}"
+                    productQuantity.text = "Available Quantity:${item.quantity}"
                     if(item.stock == "Out of Stock"){
                         inStock.visibility = View.VISIBLE
                     }else{
@@ -69,5 +69,10 @@ class OtherProductAdapter : RecyclerView.Adapter<OtherProductAdapter.OtherProduc
         val item = differ.currentList[position]
         Log.d("Adapter", "Binding item at position $position: $item")
         holder.bind(item)
+        holder.itemView.setOnClickListener {
+            onClick?.invoke(item)
+        }
     }
+
+    var onClick : ((Product) -> Unit)? = null
 }
