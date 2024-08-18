@@ -56,8 +56,6 @@ class EcommerceFragment : Fragment() {
         setUpCategoryRecyclerview()
         categoryAdapter.selectedPosition = 0
         categoryAdapter.onCategoryClick = {
-            Log.d("category", it.toString())
-            Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
 
             if (it == "All") {
                 otherProductAdapter.differ.submitList(productList)

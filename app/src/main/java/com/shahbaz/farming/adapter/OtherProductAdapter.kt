@@ -12,7 +12,6 @@ import com.shahbaz.farming.databinding.OtherProductItemBinding
 import com.shahbaz.farming.datamodel.Product
 
 class OtherProductAdapter : RecyclerView.Adapter<OtherProductAdapter.OtherProductViewholder>() {
-
     class OtherProductViewholder(val binding: OtherProductItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(item: Product?) {
@@ -23,7 +22,7 @@ class OtherProductAdapter : RecyclerView.Adapter<OtherProductAdapter.OtherProduc
                     Glide.with(itemView).load(item.productImage).into(productImage)
                     productTitle.text = item.title
                     productPrice.text = "Rs:${item.price}"
-                    productQuantity.text = "Available Quantity:${item.quantity}"
+                    productQuantity.text = "Qty:${item.quantity}"
                     if(item.stock == "Out of Stock"){
                         inStock.visibility = View.VISIBLE
                     }else{

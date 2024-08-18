@@ -48,7 +48,7 @@ class CartFragment : Fragment() {
         setUpRecyclerview()
         observeCartItem()
 
-        cartItemAdapter.onPlusClick ={
+        cartItemAdapter.onPlusClick = {
             cartViewmodel.increaseQuantity(it.productId!!)
         }
 
@@ -56,25 +56,59 @@ class CartFragment : Fragment() {
             cartViewmodel.decreaseQuantity(it.productId!!)
         }
 
+        cartItemAdapter.onDeleteClick = {
+            cartViewmodel.deleteCartItem(it)
+        }
+
         observeIncreaseQuantity()
         observeDecreaseQuantity()
+        observeDelete()
 
     }
 
-    private fun observeDecreaseQuantity() {
+    private fun observeDelete() {
         lifecycleScope.launch {
-            cartViewmodel.decreaseQuantity.collect{
-                when (it){
+            cartViewmodel.deleteStatus.collect {
+                when (it) {
                     is Resources.Error -> {
                         Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
                         binding.progressBar.visibility = View.GONE
                     }
+
                     is Resources.Loading -> {
                         binding.progressBar.visibility = View.VISIBLE
                     }
+
+                    is Resources.Success -> {
+                        Toast.makeText(requireContext(), it.data.toString(), Toast.LENGTH_SHORT)
+                            .show()
+                        binding.progressBar.visibility = View.GONE
+                        cartViewmodel.resetDeleteStatus()
+                    }
+
+                    else -> Unit
+                }
+            }
+        }
+    }
+
+    private fun observeDecreaseQuantity() {
+        lifecycleScope.launch {
+            cartViewmodel.decreaseQuantity.collect {
+                when (it) {
+                    is Resources.Error -> {
+                        Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
+                        binding.progressBar.visibility = View.GONE
+                    }
+
+                    is Resources.Loading -> {
+                        binding.progressBar.visibility = View.VISIBLE
+                    }
+
                     is Resources.Success -> {
                         binding.progressBar.visibility = View.GONE
                     }
+
                     else -> Unit
                 }
             }
@@ -83,18 +117,21 @@ class CartFragment : Fragment() {
 
     private fun observeIncreaseQuantity() {
         lifecycleScope.launch {
-            cartViewmodel.increaseQuantity.collect{
-                when (it){
+            cartViewmodel.increaseQuantity.collect {
+                when (it) {
                     is Resources.Error -> {
                         Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
                         binding.progressBar.visibility = View.GONE
                     }
+
                     is Resources.Loading -> {
                         binding.progressBar.visibility = View.VISIBLE
                     }
+
                     is Resources.Success -> {
                         binding.progressBar.visibility = View.GONE
                     }
+
                     else -> Unit
                 }
             }
@@ -119,6 +156,7 @@ class CartFragment : Fragment() {
                     is Resources.Success -> {
                         if (it.data!!.isEmpty()) {
                             binding.cartSummary.visibility = View.GONE
+                            binding.progressBar.visibility = View.GONE
                         } else {
                             cartItemAdapter.differ.submitList(it.data)
                             Log.d("CartData", it.data.toString())

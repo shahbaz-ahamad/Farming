@@ -98,7 +98,7 @@ class ProductDetailFragment : Fragment() {
                 productId = product.productId,
                 productImage = product.productImage,
                 title = product.title,
-                quantity = selectedQuantity.toString(),
+                quantity = product.quantity,
                 price = newPrice.toString(),
                 phone = product.phone,
                 stock = product.stock,

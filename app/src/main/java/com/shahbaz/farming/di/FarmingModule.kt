@@ -135,13 +135,13 @@ object FarmingModule {
 
     @Provides
     @Singleton
-    fun provideDetailsFragmentrepo(firestore: FirebaseFirestore): Detailsfragmentrepo {
-        return Detailsfragmentrepo(firestore)
+    fun provideDetailsFragmentrepo(firestore: FirebaseFirestore,firebaseAuth: FirebaseAuth): Detailsfragmentrepo {
+        return Detailsfragmentrepo(firestore,firebaseAuth)
     }
 
     @Provides
     @Singleton
-    fun provideCartRepo(firestore: FirebaseFirestore): CartRepo {
-        return CartRepo(firestore)
+    fun provideCartRepo(firestore: FirebaseFirestore,firebaseAuth: FirebaseAuth): CartRepo {
+        return CartRepo(firestore,firebaseAuth)
     }
 }

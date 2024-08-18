@@ -74,8 +74,12 @@ class CartItemAdapter : RecyclerView.Adapter<CartItemAdapter.CartItemViewholder>
         holder.binding.decreaseQuantity.setOnClickListener {
             onMinusClick?.invoke(currentItem)
         }
+        holder.binding.deleteButton.setOnClickListener {
+            onDeleteClick?.invoke(currentItem.productId!!)
+        }
     }
 
     var onPlusClick : ((CartItem) -> Unit)? = null
     var onMinusClick : ((CartItem) -> Unit)? = null
+    var onDeleteClick: ((String) -> Unit) ? = null
 }

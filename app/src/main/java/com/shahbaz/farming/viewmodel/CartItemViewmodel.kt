@@ -11,9 +11,9 @@ class CartItemViewmodel @Inject constructor(
 ) :ViewModel(){
 
     val cartItemStatus = cartRepo.cartItemStatus
-
     val increaseQuantity = cartRepo.increaseQuantity
     val decreaseQuantity = cartRepo.decreaseQuantity
+    val deleteStatus = cartRepo.deleteStatus
 
     fun getCartItem(){
         cartRepo.getCartItem()
@@ -25,5 +25,13 @@ class CartItemViewmodel @Inject constructor(
 
     fun decreaseQuantity(prodcutId:String){
         cartRepo.decreaseQuantity(prodcutId)
+    }
+
+    fun deleteCartItem(prodcutId: String){
+        cartRepo.deleteCartItem(prodcutId)
+    }
+
+    fun resetDeleteStatus(){
+        cartRepo.resetDeleteStatus()
     }
 }
