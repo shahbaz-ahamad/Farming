@@ -34,4 +34,13 @@
         <item>Seeds</item>
         <item>Machinery</item>
     </string-array>
+
+
+    <string-array name="sample_dropdown_items">
+        <item>Confirmed</item>
+        <item>Shipped</item>
+        <item>Delivered</item>
+        <item>Cancel</item>
+    </string-array>
+
 </resources>

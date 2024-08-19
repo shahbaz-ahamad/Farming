@@ -13,7 +13,6 @@ import com.shahbaz.farming.datamodel.CartItem
 
 class CartItemAdapter : RecyclerView.Adapter<CartItemAdapter.CartItemViewholder>() {
 
-
     class CartItemViewholder(val binding: CartItemBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(currentItem: CartItem?) {
             currentItem?.let {
@@ -77,9 +76,13 @@ class CartItemAdapter : RecyclerView.Adapter<CartItemAdapter.CartItemViewholder>
         holder.binding.deleteButton.setOnClickListener {
             onDeleteClick?.invoke(currentItem.productId!!)
         }
+        holder.binding.buyNow.setOnClickListener {
+            onBuyNowClick?.invoke(currentItem)
+        }
     }
 
     var onPlusClick : ((CartItem) -> Unit)? = null
     var onMinusClick : ((CartItem) -> Unit)? = null
     var onDeleteClick: ((String) -> Unit) ? = null
+    var onBuyNowClick :((CartItem) -> Unit)? = null
 }

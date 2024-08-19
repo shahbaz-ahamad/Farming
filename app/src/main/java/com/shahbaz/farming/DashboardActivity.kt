@@ -100,8 +100,17 @@ class DashboardActivity : AppCompatActivity() {
                     R.id.seeYourProduct -> {
                         navigateToFragmentfromDrawer(R.id.yourProductFragment)
                     }
+
                     R.id.cartItem -> {
                         navigateToFragmentfromDrawer(R.id.cartFragment)
+                    }
+
+                    R.id.orderedItem -> {
+                        navigateToFragmentfromDrawer(R.id.orderedFragment)
+                    }
+
+                    R.id.orderedrecevied -> {
+                        navigateToFragmentfromDrawer(R.id.orderReceivedFragment)
                     }
                 }
                 binding.main.closeDrawer(GravityCompat.START)

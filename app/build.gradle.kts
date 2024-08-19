@@ -88,6 +88,11 @@ dependencies {
 
     //glide
     implementation ("com.github.bumptech.glide:glide:4.16.0")
+
+    //step view
+    implementation ("com.github.shuhart:stepview:1.5.1")
+
+
 }
 
 // Allow references to generated code

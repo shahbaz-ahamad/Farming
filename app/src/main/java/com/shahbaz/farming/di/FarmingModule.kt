@@ -8,9 +8,11 @@ import com.shahbaz.farming.authentication.AuthenticationRepositiory
 import com.shahbaz.farming.oboarding.onboardingrepo.OnBoardingRepo
 import com.shahbaz.farming.repo.AddPostRepo
 import com.shahbaz.farming.repo.AddProductRepo
+import com.shahbaz.farming.repo.BillingRepo
 import com.shahbaz.farming.repo.CartRepo
 import com.shahbaz.farming.repo.Detailsfragmentrepo
 import com.shahbaz.farming.repo.HomeFragmentRepositiory
+import com.shahbaz.farming.repo.OrderRepo
 import com.shahbaz.farming.retrofit.WeatherApi
 import com.shahbaz.farming.util.Constant.Companion.WEATHER_BASE_URL
 import com.shahbaz.farming.weather.WeatherRepo
@@ -143,5 +145,17 @@ object FarmingModule {
     @Singleton
     fun provideCartRepo(firestore: FirebaseFirestore,firebaseAuth: FirebaseAuth): CartRepo {
         return CartRepo(firestore,firebaseAuth)
+    }
+
+    @Provides
+    @Singleton
+    fun provideBillingRepo(firestore: FirebaseFirestore,firebaseAuth: FirebaseAuth): BillingRepo {
+        return BillingRepo(firestore,firebaseAuth)
+    }
+
+    @Provides
+    @Singleton
+    fun provideOrderRepo(firestore: FirebaseFirestore,firebaseAuth: FirebaseAuth): OrderRepo {
+        return OrderRepo(firestore,firebaseAuth)
     }
 }

@@ -3,7 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
 
-
     <item
         android:id="@+id/weather"
         android:icon="@drawable/weather"
@@ -27,6 +26,19 @@
         android:id="@+id/cartItem"
         android:icon="@drawable/cart"
         android:title="Cart Item"
+        app:showAsAction="ifRoom" />
+
+
+    <item
+        android:id="@+id/orderedItem"
+        android:icon="@drawable/order_item"
+        android:title="Ordered Item"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/orderedrecevied"
+        android:icon="@drawable/order_receive"
+        android:title="Order Received"
         app:showAsAction="ifRoom" />
 
 

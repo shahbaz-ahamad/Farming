@@ -14,6 +14,7 @@ import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
+import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
@@ -24,6 +25,7 @@ import com.google.android.gms.location.LocationServices
 import com.shahbaz.farming.databinding.FragmentHomeBinding
 import com.shahbaz.farming.datamodel.weahterdatamodel.WeatherRootList
 import com.shahbaz.farming.permission.checkPermission
+import com.shahbaz.farming.permmsion.checkImagePermissionForNotifcation
 import com.shahbaz.farming.util.Constant.Companion.LOCATION_PERMISSION_REQUEST_CODE
 import com.shahbaz.farming.util.Resources
 import com.shahbaz.farming.util.showBottomNavigationBar
@@ -45,16 +47,17 @@ class HomeFragment : Fragment() {
     private var lon: String? = null
 
 
-    val requestPermissions = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { results ->
+    val requestPermissions =
+        registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { results ->
+            results.entries.forEach {
+                if (it.value) {
+                    Toast.makeText(requireContext(), "${it.key} granted", Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(requireContext(), "${it.key} denied", Toast.LENGTH_SHORT).show()
+                }
+            }
 
-        results.entries.forEach{
-            if (it.value) {
-                Toast.makeText(requireContext(), "${it.key} granted", Toast.LENGTH_SHORT).show()
-            } else {
-                Toast.makeText(requireContext(), "${it.key} denied", Toast.LENGTH_SHORT).show()
-            }        }
-
-    }
+        }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -69,14 +72,16 @@ class HomeFragment : Fragment() {
         return binding.root
     }
 
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-       com.shahbaz.farming.permmsion.checkImagePermissionForPhoto(
-           requireContext(),
-           requestPermissions
-       )
+        com.shahbaz.farming.permmsion.checkImagePermissionForPhoto(
+            requireContext(),
+            requestPermissions
+        )
 
+        checkImagePermissionForNotifcation(requireContext(), requestPermissions)
         fetchLocation()
         observeWeather()
 

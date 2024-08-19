@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.shahbaz.farming.adapter.CartItemAdapter
 import com.shahbaz.farming.databinding.FragmentCartBinding
@@ -60,6 +61,10 @@ class CartFragment : Fragment() {
             cartViewmodel.deleteCartItem(it)
         }
 
+        cartItemAdapter.onBuyNowClick = {
+            val action = CartFragmentDirections.actionCartFragmentToBillingFragment(it)
+            findNavController().navigate(action)
+        }
         observeIncreaseQuantity()
         observeDecreaseQuantity()
         observeDelete()

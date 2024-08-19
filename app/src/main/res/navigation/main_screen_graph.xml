@@ -87,5 +87,48 @@
         android:id="@+id/cartFragment"
         android:name="com.shahbaz.farming.mainscreen.CartFragment"
         android:label="fragment_cart"
-        tools:layout="@layout/fragment_cart" />
+        tools:layout="@layout/fragment_cart" >
+        <action
+            android:id="@+id/action_cartFragment_to_billingFragment"
+            app:destination="@id/billingFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/billingFragment"
+        android:name="com.shahbaz.farming.mainscreen.BillingFragment"
+        android:label="fragment_billing"
+        tools:layout="@layout/fragment_billing" >
+        <action
+            android:id="@+id/action_billingFragment_to_addressFragment"
+            app:destination="@id/addressFragment" />
+        <argument
+            android:name="cartItem"
+            app:argType="com.shahbaz.farming.datamodel.CartItem" />
+        <action
+            android:id="@+id/action_billingFragment_to_thanksFragment"
+            app:destination="@id/thanksFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addressFragment"
+        android:name="com.shahbaz.farming.mainscreen.AddressFragment"
+        android:label="fragment_address"
+        tools:layout="@layout/fragment_address" >
+        <action
+            android:id="@+id/action_addressFragment_to_billingFragment"
+            app:destination="@id/billingFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/thanksFragment"
+        android:name="com.shahbaz.farming.mainscreen.ThanksFragment"
+        android:label="fragment_thanks"
+        tools:layout="@layout/fragment_thanks" />
+    <fragment
+        android:id="@+id/orderedFragment"
+        android:name="com.shahbaz.farming.mainscreen.OrderedFragment"
+        android:label="fragment_ordered"
+        tools:layout="@layout/fragment_ordered" />
+    <fragment
+        android:id="@+id/orderReceivedFragment"
+        android:name="com.shahbaz.farming.mainscreen.OrderReceivedFragment"
+        android:label="fragment_order_received"
+        tools:layout="@layout/fragment_order_received" />
 </navigation>
