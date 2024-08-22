@@ -42,6 +42,10 @@ android {
     buildFeatures{
         viewBinding = true
     }
+
+    packagingOptions {
+        exclude("META-INF/DEPENDENCIES")
+    }
 }
 
 dependencies {
@@ -57,6 +61,7 @@ dependencies {
     implementation(libs.firebase.firestore)
     implementation(libs.play.services.location)
     implementation(libs.firebase.storage)
+    implementation(libs.firebase.messaging)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -91,6 +96,10 @@ dependencies {
 
     //step view
     implementation ("com.github.shuhart:stepview:1.5.1")
+
+
+    //for the acccess token
+    implementation("com.google.auth:google-auth-library-oauth2-http:1.3.0")
 
 
 }

@@ -3,8 +3,11 @@ package com.shahbaz.farming.di
 import android.content.Context
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.storage.FirebaseStorage
 import com.shahbaz.farming.authentication.AuthenticationRepositiory
+import com.shahbaz.farming.notification.NoticationRepo
+import com.shahbaz.farming.notification.NotificationApi
 import com.shahbaz.farming.oboarding.onboardingrepo.OnBoardingRepo
 import com.shahbaz.farming.repo.AddPostRepo
 import com.shahbaz.farming.repo.AddProductRepo
@@ -137,25 +140,50 @@ object FarmingModule {
 
     @Provides
     @Singleton
-    fun provideDetailsFragmentrepo(firestore: FirebaseFirestore,firebaseAuth: FirebaseAuth): Detailsfragmentrepo {
-        return Detailsfragmentrepo(firestore,firebaseAuth)
+    fun provideDetailsFragmentrepo(
+        firestore: FirebaseFirestore,
+        firebaseAuth: FirebaseAuth
+    ): Detailsfragmentrepo {
+        return Detailsfragmentrepo(firestore, firebaseAuth)
     }
 
     @Provides
     @Singleton
-    fun provideCartRepo(firestore: FirebaseFirestore,firebaseAuth: FirebaseAuth): CartRepo {
-        return CartRepo(firestore,firebaseAuth)
+    fun provideCartRepo(firestore: FirebaseFirestore, firebaseAuth: FirebaseAuth): CartRepo {
+        return CartRepo(firestore, firebaseAuth)
     }
 
     @Provides
     @Singleton
-    fun provideBillingRepo(firestore: FirebaseFirestore,firebaseAuth: FirebaseAuth): BillingRepo {
-        return BillingRepo(firestore,firebaseAuth)
+    fun provideBillingRepo(
+        firestore: FirebaseFirestore,
+        firebaseAuth: FirebaseAuth,
+        firebaseMessaging: FirebaseMessaging
+    ): BillingRepo {
+        return BillingRepo(firestore, firebaseAuth, firebaseMessaging)
     }
 
     @Provides
     @Singleton
-    fun provideOrderRepo(firestore: FirebaseFirestore,firebaseAuth: FirebaseAuth): OrderRepo {
-        return OrderRepo(firestore,firebaseAuth)
+    fun provideOrderRepo(firestore: FirebaseFirestore, firebaseAuth: FirebaseAuth): OrderRepo {
+        return OrderRepo(firestore, firebaseAuth)
+    }
+
+    @Provides
+    @Singleton
+    fun provideFirebaseMessaging(): FirebaseMessaging {
+        return FirebaseMessaging.getInstance()
+    }
+
+    @Provides
+    @Singleton
+    fun provideNotificationApi(retrofit: Retrofit):NotificationApi{
+        return retrofit.create(NotificationApi::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideNotificationrepo(notificationApi: NotificationApi,firestore: FirebaseFirestore): NoticationRepo {
+        return NoticationRepo(notificationApi,firestore)
     }
 }

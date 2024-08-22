@@ -36,4 +36,8 @@ class BillingViewmodel @Inject constructor(
         return billingRepo.getCurrentUserId()
     }
 
+    fun updateFCMtoken(token:String){
+        billingRepo.updateFCMToken(token)
+    }
+
 }

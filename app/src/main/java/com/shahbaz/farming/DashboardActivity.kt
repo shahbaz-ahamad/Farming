@@ -6,6 +6,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.provider.Settings
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import android.widget.TextView
 import android.widget.Toast
@@ -22,16 +23,19 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.bumptech.glide.Glide
+import com.google.firebase.messaging.FirebaseMessaging
 import com.shahbaz.farming.databinding.ActivityDashboardBinding
 import com.shahbaz.farming.datamodel.User
 import com.shahbaz.farming.permission.isLocationEnabled
 import com.shahbaz.farming.util.Constant.Companion.LOCATION_PERMISSION_REQUEST_CODE
+import com.shahbaz.farming.util.OuthToken
 import com.shahbaz.farming.util.Resources
 import com.shahbaz.farming.util.progressDialgoue
 import com.shahbaz.farming.util.showDialogue
 import com.shahbaz.farming.viewmodel.HomeFragmentViewmodel
 import dagger.hilt.android.AndroidEntryPoint
 import de.hdodenhof.circleimageview.CircleImageView
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 
@@ -56,8 +60,13 @@ class DashboardActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        progressDialog = ProgressDialog(this)
 
+        lifecycleScope.launch(Dispatchers.IO) {
+            val accessToken = OuthToken.getAccessToken()
+            Log.d("Access Token", accessToken.toString())
+        }
+
+        progressDialog = ProgressDialog(this)
 
         setupNavigationdrawer()
         homeFragmentViewmodel.getCurrentUserDetails()
@@ -89,9 +98,9 @@ class DashboardActivity : AppCompatActivity() {
                         goToMainActivity()
                     }
 
-                    R.id.weather -> {
-                        navigateToFragmentfromDrawer(R.id.weatherFragment)
-                    }
+//                    R.id.weather -> {
+//                        navigateToFragmentfromDrawer(R.id.weatherFragment)
+//                    }
 
                     R.id.sellProduct -> {
                         navigateToFragmentfromDrawer(R.id.addProductFragment)
@@ -240,7 +249,7 @@ class DashboardActivity : AppCompatActivity() {
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
-        grantResults: IntArray
+        grantResults: IntArray,
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == LOCATION_PERMISSION_REQUEST_CODE) {

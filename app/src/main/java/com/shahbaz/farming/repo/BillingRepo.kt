@@ -1,7 +1,9 @@
 package com.shahbaz.farming.repo
 
+import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.messaging.FirebaseMessaging
 import com.shahbaz.farming.datamodel.Address
 import com.shahbaz.farming.datamodel.Order
 import com.shahbaz.farming.util.Resources
@@ -10,7 +12,8 @@ import kotlinx.coroutines.flow.asStateFlow
 
 class BillingRepo(
     val firestore: FirebaseFirestore,
-    val firebaseAuth: FirebaseAuth
+    val firebaseAuth: FirebaseAuth,
+    val firebaseMessaging: FirebaseMessaging,
 ) {
 
     private val _addressStatus = MutableStateFlow<Resources<String>>(Resources.Unspecified())
@@ -59,7 +62,6 @@ class BillingRepo(
     fun placeOrder(order: Order) {
         _placeOrder.value = Resources.Loading()
         firestore.runBatch {
-
             firestore.collection("FarmingProductOrder")
                 .document(firebaseAuth.currentUser!!.uid)
                 .set(order)
@@ -83,4 +85,11 @@ class BillingRepo(
         return firebaseAuth.currentUser!!.uid
     }
 
+
+    fun updateFCMToken(token: String) {
+        firestore.collection("FarmerUser").document(firebaseAuth.currentUser!!.uid)
+            .update("fcmToken", token)
+        Log.d("Token", token)
+
+    }
 }

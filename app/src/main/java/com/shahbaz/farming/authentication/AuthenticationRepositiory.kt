@@ -30,7 +30,7 @@ class AuthenticationRepositiory(
                     user1.updateProfile(profileUpdate)
                         .addOnSuccessListener {
                             //add user to firestore
-                            val user = User(firebaseAuth.currentUser!!.uid, name, email, "")
+                            val user = User(firebaseAuth.currentUser!!.uid, name, email, "","")
                             addUserToFirestore(user)
                         }
                         .addOnFailureListener { error ->

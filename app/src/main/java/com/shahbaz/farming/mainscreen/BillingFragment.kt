@@ -21,16 +21,17 @@ import com.shahbaz.farming.databinding.FragmentBillingBinding
 import com.shahbaz.farming.datamodel.Address
 import com.shahbaz.farming.datamodel.Order
 import com.shahbaz.farming.datamodel.OrderStatus
+import com.shahbaz.farming.notification.NoticationRepo
 import com.shahbaz.farming.util.Resources
 import com.shahbaz.farming.util.showDialogue
 import com.shahbaz.farming.viewmodel.BillingViewmodel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 
 @AndroidEntryPoint
 class BillingFragment : Fragment() {
-
     private lateinit var binding: FragmentBillingBinding
     private val billingViewmodel by viewModels<BillingViewmodel>()
     private val args by navArgs<BillingFragmentArgs>()
@@ -43,13 +44,15 @@ class BillingFragment : Fragment() {
     }
     private var selectedAddress: Address? = null
 
+    @Inject
+    lateinit var noticationRepo: NoticationRepo
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View? {
         // Inflate the layout for this fragment
         binding = FragmentBillingBinding.inflate(inflater, container, false)
@@ -95,16 +98,18 @@ class BillingFragment : Fragment() {
                             binding.progressBar.visibility = View.VISIBLE
                             binding.buttonPlaceOrder.visibility = View.GONE
 
-                            billingViewmodel.placeOrder(
-                                Order(
-                                    orderId = billingViewmodel.getCurrentUserId() + System.currentTimeMillis(),
-                                    sellerId = cartItem.sellerId!!,
-                                    buyerId = billingViewmodel.getCurrentUserId(),
-                                    orderStatus = OrderStatus.Ordered.status,
-                                    product = cartItem,
-                                    address = selectedAddress!!
-                                )
+                            val order = Order(
+                                orderId = billingViewmodel.getCurrentUserId() + System.currentTimeMillis(),
+                                sellerId = cartItem.sellerId!!,
+                                buyerId = billingViewmodel.getCurrentUserId(),
+                                orderStatus = OrderStatus.Ordered.status,
+                                product = cartItem,
+                                address = selectedAddress!!
                             )
+                            billingViewmodel.placeOrder(
+                                order
+                            )
+                            noticationRepo.sendNotificationToSeller(order)
                         }
                     )
                 } else {
@@ -139,6 +144,7 @@ class BillingFragment : Fragment() {
                     is Resources.Success -> {
                         //navigate to thanks fragment and remove billing fragment from backstack
                         // Navigate to ThanksFragment and clear the backstack
+
                         val navOptions = NavOptions.Builder()
                             .setPopUpTo(
                                 R.id.billingFragment,

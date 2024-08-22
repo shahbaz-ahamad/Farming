@@ -22,6 +22,7 @@ import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
+import com.google.firebase.messaging.FirebaseMessaging
 import com.shahbaz.farming.databinding.FragmentHomeBinding
 import com.shahbaz.farming.datamodel.weahterdatamodel.WeatherRootList
 import com.shahbaz.farming.permission.checkPermission
@@ -29,6 +30,7 @@ import com.shahbaz.farming.permmsion.checkImagePermissionForNotifcation
 import com.shahbaz.farming.util.Constant.Companion.LOCATION_PERMISSION_REQUEST_CODE
 import com.shahbaz.farming.util.Resources
 import com.shahbaz.farming.util.showBottomNavigationBar
+import com.shahbaz.farming.viewmodel.BillingViewmodel
 import com.shahbaz.farming.weather.WeatherViewmodel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -39,6 +41,7 @@ class HomeFragment : Fragment() {
 
     private lateinit var binding: FragmentHomeBinding
     private val weatherViewmodel by viewModels<WeatherViewmodel>()
+    private val billingViewmodle by viewModels<BillingViewmodel>()
 
     //wee have to add dependency for this
     private lateinit var fuesdLocationClient: FusedLocationProviderClient
@@ -75,6 +78,12 @@ class HomeFragment : Fragment() {
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        FirebaseMessaging.getInstance().token.addOnSuccessListener {
+            billingViewmodle.updateFCMtoken(it)
+            Log.d("Token", it)
+        }
+
 
         com.shahbaz.farming.permmsion.checkImagePermissionForPhoto(
             requireContext(),
