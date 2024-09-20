@@ -25,6 +25,7 @@
         <activity
             android:name=".DashboardActivity"
             android:exported="true"
+            android:windowSoftInputMode="adjustResize"
             android:resizeableActivity="true">
 
         </activity>
@@ -32,6 +33,8 @@
         <activity
             android:name=".MainActivity"
             android:exported="true"
+            android:windowSoftInputMode="adjustResize"
+
             android:resizeableActivity="true">
 
             <intent-filter>

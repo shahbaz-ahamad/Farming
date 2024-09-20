@@ -62,6 +62,7 @@ class HomeFragment : Fragment() {
 
     private var lat: String? = null
     private var lon: String? = null
+
     @Inject
     lateinit var priceRepo: APMCRepo
 
@@ -126,6 +127,10 @@ class HomeFragment : Fragment() {
             findNavController().navigate(R.id.action_homeFragment_to_healthPredectionFragment)
         }
 
+        binding.chatWithBot.setOnClickListener {
+            findNavController().navigate(R.id.action_homeFragment_to_chatFragment)
+        }
+
     }
 
 
@@ -162,7 +167,7 @@ class HomeFragment : Fragment() {
         binding.weatherHumidity.text = "Humidity: ${data.main.humidity} %"
         val iconcode = data.weather[0].icon
         var iconurl = "https://openweathermap.org/img/w/" + iconcode + ".png"
-        Log.d("icon",iconurl)
+        Log.d("icon", iconurl)
         Glide.with(requireContext()).load(iconurl).into(binding.weatherIconImage)
         binding.cityName.text = data.name
         weatherViewmodel.setCityName(data.name)

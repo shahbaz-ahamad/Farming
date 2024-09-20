@@ -23,6 +23,7 @@ class Constant @Inject constructor(@ApplicationContext private val context: Cont
             "579b464db66ec23bdd000001987c65666f9c49656f0f9ef4fa3650e7"
         const val NOTIFICATION_URL = "https://fcm.googleapis.com/v1/projects/kotlin-project-aef9a/"
         const val ARTICLE_BASE_URL = "https://openfarm.cc/api/v1/"
+        const val GOOGLE_GEMINI_API_KEY="AIzaSyAcvWs7W-Uc0NPedJjtT3MbcXvw_mwhma4"
 
 
         val CATEGORY_LIST = ArrayList<String>(

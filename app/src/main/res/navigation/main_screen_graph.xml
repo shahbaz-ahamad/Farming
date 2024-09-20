@@ -16,6 +16,9 @@
         <action
             android:id="@+id/action_homeFragment_to_healthPredectionFragment"
             app:destination="@id/healthPredectionFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_chatFragment"
+            app:destination="@id/chatFragment" />
     </fragment>
     <fragment
         android:id="@+id/postFragment2"
@@ -176,4 +179,9 @@
         android:name="com.shahbaz.farming.mainscreen.FAQFragment"
         android:label="fragment_f_a_q"
         tools:layout="@layout/fragment_f_a_q" />
+    <fragment
+        android:id="@+id/chatFragment"
+        android:name="com.shahbaz.farming.mainscreen.ChatFragment"
+        android:label="fragment_chat"
+        tools:layout="@layout/fragment_chat" />
 </navigation>

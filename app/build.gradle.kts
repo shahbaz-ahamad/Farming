@@ -112,6 +112,9 @@ dependencies {
 
     //google language converter
     implementation ("com.google.mlkit:translate:17.0.3")
+
+    //chat bot
+    implementation("com.google.ai.client.generativeai:generativeai:0.9.0")
 }
 
 // Allow references to generated code
