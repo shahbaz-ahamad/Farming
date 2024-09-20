@@ -12,6 +12,7 @@ class HomeFragmentViewmodel @Inject constructor(
 
     val userDetailState = homeFragmentRepositiory.userDetailsStatus
     val updateProfileStatus = homeFragmentRepositiory.updateProfile
+    val updateCoverPictureStatus = homeFragmentRepositiory.updateCoverPicture
 
     fun getCurrentUserDetails(){
         homeFragmentRepositiory.getCurrentUserDetail()
@@ -23,5 +24,9 @@ class HomeFragmentViewmodel @Inject constructor(
 
     fun updateProfile(imageurl:String){
         homeFragmentRepositiory.updateProfilePicture(imageurl)
+    }
+
+    fun uploadCoverPhoto(coverImageUrl:String){
+        homeFragmentRepositiory.uploadCoverPhoto(coverImageUrl)
     }
 }

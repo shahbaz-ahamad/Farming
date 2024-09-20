@@ -63,7 +63,7 @@ class BillingRepo(
         _placeOrder.value = Resources.Loading()
         firestore.runBatch {
             firestore.collection("FarmingProductOrder")
-                .document(firebaseAuth.currentUser!!.uid)
+                .document()
                 .set(order)
 
             firestore.collection("FarmingCartItem")

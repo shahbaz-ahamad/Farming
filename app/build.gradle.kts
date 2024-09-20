@@ -62,6 +62,7 @@ dependencies {
     implementation(libs.play.services.location)
     implementation(libs.firebase.storage)
     implementation(libs.firebase.messaging)
+    implementation(libs.androidx.recyclerview)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -101,7 +102,16 @@ dependencies {
     //for the acccess token
     implementation("com.google.auth:google-auth-library-oauth2-http:1.3.0")
 
+    //tensor
+    implementation ("org.tensorflow:tensorflow-lite:2.5.0")
+    implementation ("org.tensorflow:tensorflow-lite-support:0.3.1")
 
+
+    //peichart
+    implementation("ir.mahozad.android:pie-chart:0.7.0")
+
+    //google language converter
+    implementation ("com.google.mlkit:translate:17.0.3")
 }
 
 // Allow references to generated code

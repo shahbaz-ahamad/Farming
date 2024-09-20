@@ -5,7 +5,8 @@ data class User(
     val name: String,
     val email: String,
     val profileUrl: String? = null,
-    val fcmToken: String
+    val fcmToken: String,
+    val coverPhotoUrl : String? = null
 ) {
-    constructor() : this("", "", "", "", "")
+    constructor() : this("", "", "", "", "","")
 }

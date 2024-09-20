@@ -33,10 +33,12 @@ import com.shahbaz.farming.util.Resources
 import com.shahbaz.farming.util.progressDialgoue
 import com.shahbaz.farming.util.showDialogue
 import com.shahbaz.farming.viewmodel.HomeFragmentViewmodel
+import com.shahbaz.farming.viewmodel.languageSelectionViewmodel
 import dagger.hilt.android.AndroidEntryPoint
 import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.util.Locale
 
 
 @AndroidEntryPoint
@@ -46,6 +48,7 @@ class DashboardActivity : AppCompatActivity() {
     private val homeFragmentViewmodel by viewModels<HomeFragmentViewmodel>()
     private var selectedProfileUrl = ""
     private lateinit var progressDialog: ProgressDialog
+    private val languageChangeViewmodel by viewModels<languageSelectionViewmodel>()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -60,6 +63,7 @@ class DashboardActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
 
         lifecycleScope.launch(Dispatchers.IO) {
             val accessToken = OuthToken.getAccessToken()
@@ -92,6 +96,15 @@ class DashboardActivity : AppCompatActivity() {
 
             binding.navigationview.setNavigationItemSelectedListener {
                 when (it.itemId) {
+
+                    R.id.profile -> {
+                        navigateToFragmentfromDrawer(R.id.profileFragment)
+                    }
+
+                    R.id.lang -> {
+                        showDialogueWithRadioButton("Change Language", "Select Language")
+                    }
+
                     R.id.logout -> {
                         homeFragmentViewmodel.signOut()
                         Toast.makeText(this, "Logout", Toast.LENGTH_SHORT).show()
@@ -130,6 +143,7 @@ class DashboardActivity : AppCompatActivity() {
             showLocationServicesDialog()
         }
     }
+
 
     private fun observeProfileChange() {
         lifecycleScope.launch {
@@ -324,6 +338,63 @@ class DashboardActivity : AppCompatActivity() {
             navController.navigate(fragmentId)
         }
 
+    }
+
+    fun showDialogueWithRadioButton(
+        title: String,
+        message: String,
+    ) {
+        // List of available languages
+        val languages = arrayOf("English", "Hindi")
+
+        val selectedLanguage = languageChangeViewmodel.getSelectedLanguage(this)
+        var selectedLanguageIndex = languages.indexOf(selectedLanguage).takeIf { it >= 0 }?: 0
+
+        // Create the AlertDialog
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle(title)
+
+        // Display languages as radio button list
+        builder.setSingleChoiceItems(languages, selectedLanguageIndex) { _, which ->
+            selectedLanguageIndex = which // Update the selected language index
+        }
+
+        // Handle the OK button click
+        builder.setPositiveButton("OK") { dialog, _ ->
+            dialog.dismiss()
+            Toast.makeText(
+                this, // Context should be correct here
+                "Selected Language: ${languages[selectedLanguageIndex]}",
+                Toast.LENGTH_SHORT
+            ).show()
+            // You can now handle the language change here, for example:
+            // changeLanguage(selectedLanguageIndex)
+            changeLanguage(selectedLanguageIndex)
+            languageChangeViewmodel.saveSelectedLanguage(this, languages[selectedLanguageIndex])
+        }
+
+        // Show the dialog
+        val dialog = builder.create()
+        dialog.show()
+    }
+
+    private fun changeLanguage(languageIndex: Int) {
+        val locale = when (languageIndex) {
+            1 -> Locale("hi") // Hindi
+            else -> Locale("en") // English
+        }
+
+        // Update the app's locale
+        Locale.setDefault(locale)
+        val config = resources.configuration
+        config.setLocale(locale)
+        createConfigurationContext(config) // Update the configuration context
+        resources.updateConfiguration(config, resources.displayMetrics)
+
+        // Restart the activity to reflect the changes
+        val intent = Intent(this, this::class.java)
+        finish()
+        startActivity(intent)
     }
 
 }

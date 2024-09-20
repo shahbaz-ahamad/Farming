@@ -11,7 +11,6 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.shahbaz.farming.R
 import com.shahbaz.farming.adapter.CatgoryApdater
 import com.shahbaz.farming.adapter.OtherProductAdapter
 import com.shahbaz.farming.databinding.FragmentEcommerceBinding

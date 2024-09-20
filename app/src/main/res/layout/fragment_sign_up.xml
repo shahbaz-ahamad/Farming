@@ -118,7 +118,7 @@
         android:textColor="@color/black"
         android:background="@drawable/edittextshape"
         android:ems="10"
-        android:hint="Confirm password"
+        android:hint="@string/confirm_password"
         android:inputType="textWebPassword"
         android:paddingStart="25dp"
         android:textColorHint="@color/green"

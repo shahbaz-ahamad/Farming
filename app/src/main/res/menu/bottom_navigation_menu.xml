@@ -3,20 +3,24 @@
 
     <item
         android:id="@+id/homeFragment"
-        android:title="Home"
-        android:icon="@drawable/home"/>
+        android:icon="@drawable/home"
+        android:title="@string/home" />
 
     <item
         android:id="@+id/postFragment2"
-        android:title="Post"
         android:icon="@drawable/post_logo"
-        />
+        android:title="@string/post" />
 
 
     <item
         android:id="@+id/ecommerceFragment"
-        android:title="E-Commerce"
         android:icon="@drawable/buy"
-        />
+        android:title="@string/e_commerce" />
+
+    <item
+        android:id="@+id/APMCFragment"
+        android:icon="@drawable/apmc"
+        android:title="@string/m_price" />
+
 
 </menu>

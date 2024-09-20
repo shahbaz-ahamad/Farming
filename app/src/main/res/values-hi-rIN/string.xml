@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">कृषि</string>
+    <string name="hello_blank_fragment">नमस्ते खाली फ्रैगमेंट</string>
+    <string name="nav_open">खोलें</string>
+    <string name="nav_close">बंद करें</string>
+    <string name="add_post">पोस्ट जोड़ें</string>
+    <string name="create_post">पोस्ट बनाएं</string>
+    <string name="create_post1">पोस्ट बनाएं</string>
+    <string name="enter_the_password">पासवर्ड दर्ज करें</string>
+    <string name="first_name">पहला नाम</string>
+    <string name="last_name">अंतिम नाम</string>
+    <string name="enter_email">ईमेल दर्ज करें</string>
+    <string name="already_have_an_account">क्या आपके पास पहले से एक खाता है?</string>
+    <string name="create_account">खाता बनाएं</string>
+    <string name="farming_app">कृषि ऐप</string>
+    <string name="get_your_farming_product_here">यहां अपना कृषि उत्पाद प्राप्त करें</string>
+    <string name="sign_up_here">यहां साइन अप करें</string>
+    <string name="farming_app1">कृषि ऐप</string>
+    <string name="get_your_farming_product_here1">यहां अपना कृषि उत्पाद प्राप्त करें</string>
+    <string name="login_to_your_account">अपने खाते में लॉगिन करें</string>
+    <string name="enter_email1">ईमेल दर्ज करें</string>
+    <string name="designed_by_rahul_and_shahbaz">शाहबाज़ द्वारा डिज़ाइन किया गया</string>
+    <string name="article">आटिक्‌ल्‌</string>
+    <string name="logout">लॉगआउट</string>
+    <string name="change_language">भाषा बदलें</string>
+    <string name="order_received">ऑर्डर प्राप्त हुआ</string>
+    <string name="ordered_item">आर्डर किया गया आइटम</string>
+    <string name="cart_item">कार्ट आइटम</string>
+    <string name="see_your_product">अपने उत्पाद को देखें</string>
+    <string name="sell_product">उत्पाद बेचें</string>
+    <string name="profile">प्रोफाइल</string>
+    <string name="home">होम</string>
+    <string name="post">पोस्ट</string>
+    <string name="e_commerce">ई-कॉमर्स</string>
+    <string name="m_price">एम-प्राइस</string>
+    <string name="or">या</string>
+    <string name="continue_with">साथ जारी रखें</string>
+    <string name="google">गूगल</string>
+    <string name="login">लॉग इन</string>
+    <string name="phone">फ़ोन</string>
+    <string name="don_t_have_an_account">खाता नहीं है?</string>
+    <string name="confirm_password">पासवर्ड की पुष्टि करें</string>
+    <string name="art_speaks_where_words_are_unable_to_explain_frame_your_story_frame_your_soul">कला तब बोलती है जब शब्द व्याख्या करने में असमर्थ होते हैं। अपनी कहानी को फ्रेम करें, अपनी आत्मा को फ्रेम करें।</string>
+    <string name="back">पिछला</string>
+    <string name="next">अगला</string>
+    <string name="predict_health">स्वास्थ्य की भविष्यवाणी करें</string>
+    <string name="select_image">छवि चयन करें</string>
+    <string name="tomato">टमाटर</string>
+    <string name="cabbage">पत्तागोभी</string>
+    <string name="potato">आलू</string>
+    <string name="prediction_result">भविष्यवाणी परिणाम</string>
+    <string name="buy_or_sell_history">खरीद या बिक्री इतिहास</string>
+    <string name="purchase_item">खरीदी गई वस्तु</string>
+    <string name="sold_item">बेची गई वस्तु</string>
+
+    <string-array name="stock_list">
+        <item>स्टॉक में</item>
+        <item>स्टॉक से बाहर</item>
+    </string-array>
+
+    <string-array name="category_list">
+        <item>उर्वरक</item>
+        <item>कीटनाशक</item>
+        <item>बीज</item>
+        <item>मशीनरी</item>
+    </string-array>
+
+    <string-array name="sample_dropdown_items">
+        <item>पुष्ट</item>
+        <item>भेजा गया</item>
+        <item>डिलीवर किया गया</item>
+        <item>रद्द करें</item>
+    </string-array>
+
+
+    <string-array name="category_list1">
+        <item>सभी</item>
+        <item>उर्वरक</item>
+        <item>कीटनाशक</item>
+        <item>बीज</item>
+        <item>मशीनरी</item>
+    </string-array>
+
+
+</resources>

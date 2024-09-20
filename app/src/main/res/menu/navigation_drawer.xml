@@ -3,49 +3,54 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
 
-<!--    <item-->
-<!--        android:id="@+id/weather"-->
-<!--        android:icon="@drawable/weather"-->
-<!--        android:title="Weather"-->
-<!--        app:showAsAction="ifRoom" />-->
-
+    <item
+        android:id="@+id/profile"
+        android:icon="@drawable/profile"
+        android:title="@string/profile"
+        app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/sellProduct"
         android:icon="@drawable/buy"
-        android:title="Sell Product"
+        android:title="@string/sell_product"
         app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/seeYourProduct"
         android:icon="@drawable/your_product"
-        android:title="See Your Product"
+        android:title="@string/see_your_product"
         app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/cartItem"
         android:icon="@drawable/cart"
-        android:title="Cart Item"
+        android:title="@string/cart_item"
         app:showAsAction="ifRoom" />
 
 
     <item
         android:id="@+id/orderedItem"
         android:icon="@drawable/order_item"
-        android:title="Ordered Item"
+        android:title="@string/ordered_item"
         app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/orderedrecevied"
         android:icon="@drawable/order_receive"
-        android:title="Order Received"
+        android:title="@string/order_received"
         app:showAsAction="ifRoom" />
 
 
     <item
+        android:id="@+id/lang"
+        android:icon="@drawable/language"
+        android:title="@string/change_language"
+        app:showAsAction="ifRoom" />
+
+    <item
         android:id="@+id/logout"
         android:icon="@drawable/baseline_logout_24"
-        android:title="Logout"
+        android:title="@string/logout"
         app:showAsAction="ifRoom" />
 
 </menu>

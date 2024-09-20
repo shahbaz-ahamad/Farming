@@ -93,6 +93,8 @@ class SignUpFragment : Fragment() {
                     is Resources.Unspecified -> {
 
                     }
+
+                    else -> {}
                 }
             }
         }

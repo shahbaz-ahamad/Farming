@@ -11,7 +11,7 @@ interface NotificationApi {
     @Headers(
         "Content-Type:application/json"
     )
-    @POST("https://fcm.googleapis.com/v1/projects/kotlin-project-aef9a/messages:send")
+    @POST("messages:send")
     fun sendNotification(
         @Header("Authorization") authToken: String,
         @Body message: NotifcationDataClass,

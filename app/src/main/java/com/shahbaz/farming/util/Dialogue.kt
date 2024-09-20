@@ -5,6 +5,7 @@ import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
 import android.provider.Settings
+import com.shahbaz.farming.DashboardActivity
 
 fun showDialogue(
     context: Context,
@@ -12,7 +13,7 @@ fun showDialogue(
     message: String,
     positiveButton: String,
     negativeButton: String,
-    onClick: () -> Unit
+    onClick: () -> Unit,
 ) {
     AlertDialog.Builder(context)
         .setTitle(title)
@@ -34,9 +35,10 @@ fun progressDialgoue(
     progressDialog: ProgressDialog,
     title: String,
     message: String,
-){
+) {
     progressDialog.setTitle(title)
     progressDialog.setMessage(message)
     progressDialog.setCancelable(false)
     progressDialog.show()
 }
+

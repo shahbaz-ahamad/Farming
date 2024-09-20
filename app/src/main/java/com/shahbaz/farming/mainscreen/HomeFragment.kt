@@ -19,21 +19,32 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.firebase.messaging.FirebaseMessaging
+import com.shahbaz.farming.R
+import com.shahbaz.farming.adapter.ArticleAdapter
 import com.shahbaz.farming.databinding.FragmentHomeBinding
+import com.shahbaz.farming.datamodel.Article
 import com.shahbaz.farming.datamodel.weahterdatamodel.WeatherRootList
 import com.shahbaz.farming.permission.checkPermission
 import com.shahbaz.farming.permmsion.checkImagePermissionForNotifcation
+import com.shahbaz.farming.repo.apmc.APMCRepo
+import com.shahbaz.farming.util.Constant
 import com.shahbaz.farming.util.Constant.Companion.LOCATION_PERMISSION_REQUEST_CODE
+import com.shahbaz.farming.util.Constant.Companion.articleList
 import com.shahbaz.farming.util.Resources
 import com.shahbaz.farming.util.showBottomNavigationBar
 import com.shahbaz.farming.viewmodel.BillingViewmodel
+import com.shahbaz.farming.viewmodel.article.ArticleViewModel
 import com.shahbaz.farming.weather.WeatherViewmodel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import java.util.UUID
+import javax.inject.Inject
 
 
 @AndroidEntryPoint
@@ -42,13 +53,17 @@ class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
     private val weatherViewmodel by viewModels<WeatherViewmodel>()
     private val billingViewmodle by viewModels<BillingViewmodel>()
+    private val articleAdapter by lazy {
+        ArticleAdapter()
+    }
 
     //wee have to add dependency for this
     private lateinit var fuesdLocationClient: FusedLocationProviderClient
 
     private var lat: String? = null
     private var lon: String? = null
-
+    @Inject
+    lateinit var priceRepo: APMCRepo
 
     val requestPermissions =
         registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { results ->
@@ -68,7 +83,7 @@ class HomeFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View? {
         // Inflate the layout for this fragment
         binding = FragmentHomeBinding.inflate(inflater, container, false)
@@ -78,6 +93,10 @@ class HomeFragment : Fragment() {
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        setUprecyclerview()
+        priceRepo.fetchApmcData()
+
 
         FirebaseMessaging.getInstance().token.addOnSuccessListener {
             billingViewmodle.updateFCMtoken(it)
@@ -94,7 +113,21 @@ class HomeFragment : Fragment() {
         fetchLocation()
         observeWeather()
 
+
+        articleAdapter.onItemClick = {
+            Log.d("article", it)
+            val bundle = Bundle().apply {
+                putString("name", it)
+            }
+            findNavController().navigate(R.id.action_homeFragment_to_articleDetailsFragment, bundle)
+        }
+
+        binding.predicthealthImage.setOnClickListener {
+            findNavController().navigate(R.id.action_homeFragment_to_healthPredectionFragment)
+        }
+
     }
+
 
     private fun observeWeather() {
         lifecycleScope.launch {
@@ -129,6 +162,7 @@ class HomeFragment : Fragment() {
         binding.weatherHumidity.text = "Humidity: ${data.main.humidity} %"
         val iconcode = data.weather[0].icon
         var iconurl = "https://openweathermap.org/img/w/" + iconcode + ".png"
+        Log.d("icon",iconurl)
         Glide.with(requireContext()).load(iconurl).into(binding.weatherIconImage)
         binding.cityName.text = data.name
         weatherViewmodel.setCityName(data.name)
@@ -170,5 +204,17 @@ class HomeFragment : Fragment() {
         super.onResume()
         showBottomNavigationBar()
     }
-}
 
+    fun setUprecyclerview() {
+        binding.recyclerviewArticle.apply {
+            adapter = articleAdapter
+            setHasFixedSize(true)
+            layoutManager =
+                LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+
+            articleAdapter.differ.submitList(articleList)
+        }
+    }
+
+
+}

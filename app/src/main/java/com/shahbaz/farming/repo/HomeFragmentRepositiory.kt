@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.asStateFlow
 class HomeFragmentRepositiory(
     val firebaseAuth: FirebaseAuth,
     val firestore: FirebaseFirestore,
-    val firebaseStorage: FirebaseStorage
+    val firebaseStorage: FirebaseStorage,
 ) {
 
     private val _userDetailsStatus = MutableStateFlow<Resources<User>>(Resources.Unspecified())
@@ -22,6 +22,8 @@ class HomeFragmentRepositiory(
     private val _updateProfilePicture = MutableStateFlow<Resources<String>>(Resources.Unspecified())
     val updateProfile = _updateProfilePicture.asStateFlow()
 
+    private val _updateCoverPicture = MutableStateFlow<Resources<String>>(Resources.Unspecified())
+    val updateCoverPicture = _updateCoverPicture.asStateFlow()
 
     fun signOut() {
         firebaseAuth.signOut()
@@ -83,10 +85,35 @@ class HomeFragmentRepositiory(
             }
             .addOnFailureListener { exception ->
                 _updateProfilePicture.value = Resources.Error(exception.localizedMessage)
-
             }
+    }
 
+    fun uploadCoverPhoto(coverImageUrl: String) {
+        _updateCoverPicture.value = Resources.Loading()
 
+        val firebaseReference = firebaseStorage.reference
+        firebaseReference.child("FarmerProfile")
+            .child(coverImageUrl)
+            .putFile(Uri.parse(coverImageUrl))
+            .addOnSuccessListener {
+                it.storage.downloadUrl.addOnSuccessListener { imageUri ->
+                    val imageUrl = imageUri.toString()
+                    firestore.collection("FarmerUser").document(firebaseAuth.currentUser!!.uid)
+                        .update("coverPhotoUrl", imageUrl)
+                        .addOnSuccessListener {
+                            _updateCoverPicture.value = Resources.Success(imageUrl)
+                        }
+                        .addOnFailureListener { ex ->
+                            _updateCoverPicture.value = Resources.Error(ex.localizedMessage)
+                        }
+                }
+                    .addOnFailureListener { e ->
+                        _updateCoverPicture.value = Resources.Error(e.localizedMessage)
+                    }
+            }
+            .addOnFailureListener { exception ->
+                _updateCoverPicture.value = Resources.Error(exception.localizedMessage)
+            }
     }
 
 }

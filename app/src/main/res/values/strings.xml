@@ -20,7 +20,40 @@
     <string name="get_your_farming_product_here1">Get your farming product here</string>
     <string name="login_to_your_account">Login to your account</string>
     <string name="enter_email1">Enter Email</string>
-    <string name="designed_by_rahul_and_shahbaz">Designed by Rahul and shahbaz</string>
+    <string name="designed_by_rahul_and_shahbaz">Designed by shahbaz</string>
+    <string name="article">Article</string>
+
+    <string name="logout">Logout</string>
+    <string name="change_language">Change Language</string>
+    <string name="order_received">Order Received</string>
+    <string name="ordered_item">Ordered Item</string>
+    <string name="cart_item">Cart Item</string>
+    <string name="see_your_product">See Your Product</string>
+    <string name="sell_product">Sell Product</string>
+    <string name="profile">Profile</string>
+    <string name="home">Home</string>
+    <string name="post">Post</string>
+    <string name="e_commerce">E-Commerce</string>
+    <string name="m_price">M-Price</string>
+    <string name="or">OR</string>
+    <string name="continue_with">Continue with</string>
+    <string name="google">Google</string>
+    <string name="login">Login</string>
+    <string name="phone">Phone</string>
+    <string name="don_t_have_an_account">Don\'t have an account ?</string>
+    <string name="confirm_password">Confirm password</string>
+    <string name="art_speaks_where_words_are_unable_to_explain_frame_your_story_frame_your_soul">Art speaks where words are unable to explain. Frame your story, frame your soul.</string>
+    <string name="back">Back</string>
+    <string name="next">Next</string>
+    <string name="predict_health">Predict Health</string>
+    <string name="select_image">Select Image</string>
+    <string name="tomato">Tomato</string>
+    <string name="cabbage">Cabbage</string>
+    <string name="potato">Potato</string>
+    <string name="prediction_result">Prediction Result</string>
+    <string name="buy_or_sell_history">Buy Or Sell History</string>
+    <string name="purchase_item">Purchase Item</string>
+    <string name="sold_item">Sold Item</string>
 
 
     <string-array name="stock_list">
@@ -41,6 +74,14 @@
         <item>Shipped</item>
         <item>Delivered</item>
         <item>Cancel</item>
+    </string-array>
+
+    <string-array name="category_list1">
+        <item>All</item>
+        <item>Fertilizers</item>
+        <item>Pesticides</item>
+        <item>Seeds</item>
+        <item>Machinery</item>
     </string-array>
 
 </resources>
