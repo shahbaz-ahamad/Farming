@@ -53,6 +53,8 @@
     <string name="buy_or_sell_history">खरीद या बिक्री इतिहास</string>
     <string name="purchase_item">खरीदी गई वस्तु</string>
     <string name="sold_item">बेची गई वस्तु</string>
+    <string name="faq">अक्सर पूछे जाने वाले प्रश्न</string>
+
 
     <string-array name="stock_list">
         <item>स्टॉक में</item>
@@ -81,6 +83,21 @@
         <item>बीज</item>
         <item>मशीनरी</item>
     </string-array>
+
+    <string name="faq_question_1">मैं एक नया उत्पाद कैसे जोड़ूं?</string>
+    <string name="faq_answer_1">आप अपना उत्पाद बेचें अनुभाग में जाकर और आवश्यक विवरण भरकर एक नया उत्पाद जोड़ सकते हैं।</string>
+
+    <string name="faq_question_2">मैं अपने ऑर्डर को कैसे ट्रैक कर सकता हूं?</string>
+    <string name="faq_answer_2">आप ऐप में मेरे ऑर्डर अनुभाग में जाकर अपने सभी ऑर्डर की ट्रैकिंग स्थिति देख सकते हैं।</string>
+
+    <!-- FAQ 3 -->
+    <string name="faq_question_3">मैं ग्राहक सहायता से कैसे संपर्क करूं?</string>
+    <string name="faq_answer_3">आप ऐप के सहायता और समर्थन अनुभाग के माध्यम से या प्रदान किए गए हेल्पलाइन नंबर पर कॉल करके ग्राहक सहायता से संपर्क कर सकते हैं।</string>
+
+    <!-- FAQ 4 -->
+    <string name="faq_question_4">वापसी नीति क्या है?</string>
+    <string name="faq_answer_4">हमारी वापसी नीति आपको डिलीवरी के 15 दिनों के भीतर उत्पाद वापस करने की अनुमति देती है यदि वे दोषपूर्ण हैं या आपकी उम्मीदों पर खरे नहीं उतरे हैं।</string>
+
 
 
 </resources>

@@ -54,7 +54,7 @@
     <string name="buy_or_sell_history">Buy Or Sell History</string>
     <string name="purchase_item">Purchase Item</string>
     <string name="sold_item">Sold Item</string>
-
+    <string name="faq">FAQ</string>
 
     <string-array name="stock_list">
         <item>In Stock</item>
@@ -84,4 +84,18 @@
         <item>Machinery</item>
     </string-array>
 
+
+    <string name="faq_question_1">How do I add a new product?</string>
+    <string name="faq_answer_1">You can add a new product by navigating to the Sell Your Product section and filling out the required details.</string>
+
+    <string name="faq_question_2">How can I track my order?</string>
+    <string name="faq_answer_2">You can track your order by going to the My Orders section in the app, where you will see the tracking status of all your orders.</string>
+
+    <!-- FAQ 3 -->
+    <string name="faq_question_3">How do I contact customer support?</string>
+    <string name="faq_answer_3">You can contact customer support through the Help and Support section in the app, or by calling the provided helpline number.</string>
+
+    <!-- FAQ 4 -->
+    <string name="faq_question_4">What is the return policy?</string>
+    <string name="faq_answer_4">Our return policy allows you to return products within 15 days of delivery if they are defective or do not meet your expectations.</string>
 </resources>

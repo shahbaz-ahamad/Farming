@@ -134,6 +134,10 @@ class DashboardActivity : AppCompatActivity() {
                     R.id.orderedrecevied -> {
                         navigateToFragmentfromDrawer(R.id.orderReceivedFragment)
                     }
+
+                    R.id.faq ->{
+                        navigateToFragmentfromDrawer(R.id.FAQFragment)
+                    }
                 }
                 binding.main.closeDrawer(GravityCompat.START)
                 return@setNavigationItemSelectedListener true

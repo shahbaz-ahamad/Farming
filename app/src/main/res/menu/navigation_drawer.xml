@@ -48,6 +48,12 @@
         app:showAsAction="ifRoom" />
 
     <item
+        android:id="@+id/faq"
+        android:icon="@drawable/faq"
+        android:title="@string/faq"
+        app:showAsAction="ifRoom" />
+
+    <item
         android:id="@+id/logout"
         android:icon="@drawable/baseline_logout_24"
         android:title="@string/logout"
